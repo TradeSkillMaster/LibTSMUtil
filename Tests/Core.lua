@@ -1,0 +1,33 @@
+local Env = require("LibTSMCore.Tests.Env.Core")
+Env.Init("TradeSkillMaster", "RETAIL")
+Env.LoadAddonFiles({
+	"EmbeddedLibs/LibStub/LibStub.lua",
+	"EmbeddedLibs/LibDeflate/lib.xml",
+	"EmbeddedLibs/LibSerialize/lib.xml",
+	"LibTSMClass/LibTSMClass.lua",
+	"LibTSMCore/LibTSMCore.xml",
+	"LibTSMUtil/LibTSMUtil.xml",
+})
+Env.LoadTestCaseFiles({
+	"LibTSMUtil/Tests/ContextManagerTest.lua",
+	"LibTSMUtil/Tests/DatabaseTest.lua",
+	"LibTSMUtil/Tests/EncoderTest.lua",
+	"LibTSMUtil/Tests/EnumTypeTest.lua",
+	"LibTSMUtil/Tests/FSMTest.lua",
+	"LibTSMUtil/Tests/HashTest.lua",
+	"LibTSMUtil/Tests/IteratorTest.lua",
+	"LibTSMUtil/Tests/MathTest.lua",
+	"LibTSMUtil/Tests/MoneyFormatterTest.lua",
+	"LibTSMUtil/Tests/MoneyTest.lua",
+	"LibTSMUtil/Tests/NamedTupleListTest.lua",
+	"LibTSMUtil/Tests/RangeTest.lua",
+	"LibTSMUtil/Tests/ReactiveTest.lua",
+	"LibTSMUtil/Tests/SmartMapTest.lua",
+	"LibTSMUtil/Tests/StringBuilderTest.lua",
+	"LibTSMUtil/Tests/StringTest.lua",
+	"LibTSMUtil/Tests/TableTest.lua",
+	"LibTSMUtil/Tests/TempTableTest.lua",
+	"LibTSMUtil/Tests/TreeTest.lua",
+	"LibTSMUtil/Tests/VarargTest.lua",
+})
+Env.Run()
