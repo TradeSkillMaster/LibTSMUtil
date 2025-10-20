@@ -1,0 +1,48 @@
+name: PR Checks
+on: [pull_request]
+jobs:
+  pr:
+    name: Pull Request Checks
+    runs-on: ubuntu-latest
+
+    env:
+      LUA_DEPS_PATH: ${{ github.workspace }}/.luadeps
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          path: LibTSMUtil/
+
+      - name: Checkout LibTSMCore
+        uses: actions/checkout@v4
+        with:
+          repository: TradeSkillMaster/LibTSMCore
+          path: LibTSMCore/
+
+      - name: Checkout LibTSMClass
+        uses: actions/checkout@v4
+        with:
+          repository: TradeSkillMaster/LibTSMClass
+          path: LibTSMClass/
+
+      - name: Install Lua 5.1.5
+        uses: leafo/gh-actions-lua@v10
+        with:
+          luaVersion: "5.1.5"
+
+      - name: Install Luarocks
+        uses: leafo/gh-actions-luarocks@v4
+
+      - name: Install Lua Dependencies
+        run: |
+          mkdir -p $LUA_DEPS_PATH
+          git clone --depth=1 https://github.com/TradeSkillMaster/luacheck.git $LUA_DEPS_PATH/luacheck
+          cd $LUA_DEPS_PATH/luacheck && luarocks make
+
+      - name: Run Luacheck
+        run: luacheck .
+        working-directory: LibTSMUtil/
+
+      - name: Unit Tests
+        run: lua LibTSMUtil/Tests/Core.lua

@@ -1,7 +1,13 @@
-local repo_root = io.popen("git rev-parse --show-superproject-working-tree --show-toplevel | head -1"):read('*l')
-local opt = assert(loadfile(repo_root.."/LibTSMCore/.luacheckrc"))()
+local repo_root = io.popen("git rev-parse --show-toplevel"):read('*l')
+local f = loadfile(repo_root.."/LibTSMCore/.luacheckrc")
+if not f then
+	f = assert(loadfile(repo_root.."/../LibTSMCore/.luacheckrc"))
+end
+local opt = f()
 
 -- Add TSMDEV
 table.insert(opt.globals, "TSMDEV")
+
+table.insert(opt.exclude_files, "EmbeddedLibs/")
 
 return opt
