@@ -1,7 +1,7 @@
 -- ------------------------------------------------------------------------------ --
---                                TradeSkillMaster                                --
---                          https://tradeskillmaster.com                          --
---    All Rights Reserved - Detailed license information included with addon.     --
+--                                   LibTSMUtil                                   --
+--                 https://github.com/TradeSkillMaster/LibTSMUtil                 --
+--         Licensed under the MIT license. See LICENSE.txt for more info.         --
 -- ------------------------------------------------------------------------------ --
 
 -- NOTE: The following code is heavily based on https://github.com/hsluv/hsluv-lua, with some

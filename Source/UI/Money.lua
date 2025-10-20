@@ -1,7 +1,7 @@
 -- ------------------------------------------------------------------------------ --
---                                TradeSkillMaster                                --
---                          https://tradeskillmaster.com                          --
---    All Rights Reserved - Detailed license information included with addon.     --
+--                                   LibTSMUtil                                   --
+--                 https://github.com/TradeSkillMaster/LibTSMUtil                 --
+--         Licensed under the MIT license. See LICENSE.txt for more info.         --
 -- ------------------------------------------------------------------------------ --
 
 local LibTSMUtil = select(2, ...).LibTSMUtil
