@@ -41,7 +41,9 @@ jobs:
           cd $LUA_DEPS_PATH/luacheck && luarocks make
 
       - name: Run Luacheck
-        run: luacheck .
+        run: |
+          pwd
+          luacheck .
         working-directory: LibTSMUtil/
 
       - name: Unit Tests
