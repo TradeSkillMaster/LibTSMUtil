@@ -8,4 +8,6 @@ local opt = f()
 -- Add TSMDEV
 table.insert(opt.globals, "TSMDEV")
 
+table.insert(opt.exclude_files, "EmbeddedLibs/")
+
 return opt
