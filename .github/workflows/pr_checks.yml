@@ -5,10 +5,6 @@ jobs:
     name: Pull Request Checks
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: ./repo
-
     env:
       LUA_DEPS_PATH: ${{ github.workspace }}/.luadeps
 
@@ -16,7 +12,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
-          path: repo
+          path: LibTSMUtil/
 
       - name: Checkout LibTSMCore
         uses: actions/checkout@v4
@@ -46,6 +42,7 @@ jobs:
 
       - name: Run Luacheck
         run: luacheck .
+        working-directory: LibTSMUtil/
 
       - name: Unit Tests
-        run: lua Tests/Core.lua
+        run: lua LibTSMUtil/Tests/Core.lua
