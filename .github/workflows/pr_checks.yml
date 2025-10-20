@@ -22,13 +22,11 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: TradeSkillMaster/LibTSMCore
-          path: repo/LibTSMCore/
 
       - name: Checkout LibTSMClass
         uses: actions/checkout@v4
         with:
           repository: TradeSkillMaster/LibTSMClass
-          path: repo/LibTSMClass/
 
       - name: Install Lua 5.1.5
         uses: leafo/gh-actions-lua@v10
