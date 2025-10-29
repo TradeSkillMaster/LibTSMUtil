@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+        with:
+          path: LibTSMUtil/
 
       - name: Checkout LibTSMClass
         uses: actions/checkout@v4
@@ -38,11 +40,13 @@ jobs:
           pip install sphinx sphinx-lua-ls sphinx-rtd-theme myst-parser
 
       - name: Sphinx Build
+        working-directory: LibTSMUtil/
         run: |
           sphinx-build Docs Docs/_build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
+        working-directory: LibTSMUtil/
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         with:
           publish_branch: gh-pages
