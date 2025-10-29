@@ -9,9 +9,6 @@ local FSMObject = LibTSMUtil:DefineClassType("FSMObject")
 local FSMState = LibTSMUtil:IncludeClassType("FSMState")
 local TempTable = LibTSMUtil:Include("BaseType.TempTable")
 local Log = LibTSMUtil:Include("Util.Log")
-local private = {
-	eventTransitionHandlerCache = {},
-}
 
 
 
@@ -57,29 +54,6 @@ function FSMObject:AddState(stateObj)
 	assert(not self._stateObjs[name], "state already exists")
 	self._stateObjs[name] = stateObj
 	return self
-end
-
----Add a default event handler.
----@param event string The event name
----@param handler function The default event handler
----@return FSMObject
-function FSMObject:AddDefaultEvent(event, handler)
-	assert(not self._defaultEvents[event], "event already exists")
-	self._defaultEvents[event] = handler
-	return self
-end
-
----Add a simple default event-based transition.
----@param event string The event name
----@param toState string The state to transition to
----@return FSMObject
-function FSMObject:AddDefaultEventTransition(event, toState)
-	if not private.eventTransitionHandlerCache[toState] then
-		private.eventTransitionHandlerCache[toState] = function(context, ...)
-			return toState, ...
-		end
-	end
-	return self:AddDefaultEvent(event, private.eventTransitionHandlerCache[toState])
 end
 
 ---Initialize the FSM.

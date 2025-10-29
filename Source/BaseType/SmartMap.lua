@@ -22,11 +22,20 @@ local VALID_VALUE_TYPES = { ---@type table<SmartMapValueType,true>
 ---@class SmartMapReaderContext
 ---@field map SmartMap
 ---@field callback? fun(reader: SmartMapReader, pendingChanges: table)
----@field pendingChanges table<SmartMapKeyType,SmartMapValueType>
+---@field pendingChanges table<SmartMapKey,SmartMapValue>
+
+---@alias SmartMapKey
+---|string
+---|number
 
 ---@alias SmartMapKeyType
 ---|'"string"'
 ---|'"number"'
+
+---@alias SmartMapValue
+---|string
+---|number
+---|boolean
 
 ---@alias SmartMapValueType
 ---|'"string"'
@@ -102,7 +111,7 @@ end
 -- ============================================================================
 
 ---Called when the value has changed for a given key to fetch the new one and notify the readers.
----@param key SmartMapKeyType The key which changed
+---@param key SmartMapKey The key which changed
 function SmartMap:ValueChanged(key)
 	local oldValue = self._data[key]
 	if oldValue == nil then
@@ -197,7 +206,7 @@ function SmartMap:GetValueType()
 end
 
 ---Iterates over all data in the smart map.
----@return fun(): SmartMapKeyType, SmartMapValueType @Iterator with fields: `key`, `value`
+---@return fun(): SmartMapKey, SmartMapValue @Iterator with fields: `key`, `value`
 ---@return table
 function SmartMap:Iterator()
 	return pairs(self._data)

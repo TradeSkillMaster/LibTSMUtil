@@ -102,7 +102,7 @@ end
 -- Iterator Class
 -- ============================================================================
 
----Sets a function to filter iterator values (happens before mapping).
+---Adds a function to filter iterator values (happens before mapping).
 ---@param func IteratorFilterFunc Function which returns if a value should be provided by the iterator
 ---@return IteratorObject
 function ITERATOR_METHODS:Filter(func)

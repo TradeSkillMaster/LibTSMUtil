@@ -62,7 +62,7 @@ function Tree:GetData(node, fieldName)
 end
 
 ---Inserts a node into the tree
----@param parent number The parent node
+---@param parent? number The parent node
 ---@param ... any The data fields for the node
 ---@return number
 function Tree:Insert(parent, ...)
