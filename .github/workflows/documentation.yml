@@ -46,10 +46,9 @@ jobs:
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
-        working-directory: LibTSMUtil/
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         with:
           publish_branch: gh-pages
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: Docs/_build/
+          publish_dir: LibTSMUtil/Docs/_build/
           force_orphan: true
