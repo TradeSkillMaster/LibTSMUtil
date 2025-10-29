@@ -16,24 +16,26 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: LibTSMUtil/
 
       - name: Checkout LibTSMClass
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: TradeSkillMaster/LibTSMClass
           path: LibTSMClass/
 
       - name: Checkout LibTSMCore
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: TradeSkillMaster/LibTSMCore
           path: LibTSMCore/
 
       - name: Python Setup
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
 
       - name: Install Dependencies
         run: |
