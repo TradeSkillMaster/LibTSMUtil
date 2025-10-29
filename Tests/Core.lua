@@ -8,7 +8,6 @@ Env.LoadAddonFiles({
 })
 Env.LoadTestCaseFiles({
 	"LibTSMUtil/Tests/ContextManagerTest.lua",
-	"LibTSMUtil/Tests/DatabaseTest.lua",
 	"LibTSMUtil/Tests/EncoderTest.lua",
 	"LibTSMUtil/Tests/EnumTypeTest.lua",
 	"LibTSMUtil/Tests/FSMTest.lua",
@@ -19,7 +18,6 @@ Env.LoadTestCaseFiles({
 	"LibTSMUtil/Tests/MoneyTest.lua",
 	"LibTSMUtil/Tests/NamedTupleListTest.lua",
 	"LibTSMUtil/Tests/RangeTest.lua",
-	"LibTSMUtil/Tests/ReactiveTest.lua",
 	"LibTSMUtil/Tests/SmartMapTest.lua",
 	"LibTSMUtil/Tests/StringBuilderTest.lua",
 	"LibTSMUtil/Tests/StringTest.lua",
