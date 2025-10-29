@@ -9,5 +9,3 @@ The ``UI`` module contains various UI-related utlity classes and modules.
    color
    hsluv
    money
-   ui_bindings
-   ui_manager
