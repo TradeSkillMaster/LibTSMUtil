@@ -16,28 +16,33 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+        with:
+          path: LibTSMUtil/
 
       - name: Checkout LibTSMClass
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: TradeSkillMaster/LibTSMClass
           path: LibTSMClass/
 
       - name: Checkout LibTSMCore
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: TradeSkillMaster/LibTSMCore
           path: LibTSMCore/
 
       - name: Python Setup
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
 
       - name: Install Dependencies
         run: |
           pip install sphinx sphinx-lua-ls sphinx-rtd-theme myst-parser
 
       - name: Sphinx Build
+        working-directory: LibTSMUtil/
         run: |
           sphinx-build Docs Docs/_build
 
@@ -47,5 +52,5 @@ jobs:
         with:
           publish_branch: gh-pages
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: Docs/_build/
+          publish_dir: LibTSMUtil/Docs/_build/
           force_orphan: true
