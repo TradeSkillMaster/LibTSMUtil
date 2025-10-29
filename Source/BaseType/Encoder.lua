@@ -65,6 +65,7 @@ end
 ---@param encodingType EncoderEncodingType
 ---@return Encoder
 function Encoder:SetEncodingType(encodingType)
+	assert(not self._encodingType)
 	assert(encodingType == "PRINT" or encodingType == "ADDON" or encodingType == "BASE64")
 	self._encodingType = encodingType
 	return self
@@ -74,6 +75,7 @@ end
 ---@param serializationType EncoderSerializationType
 ---@return Encoder
 function Encoder:SetSerializationType(serializationType)
+	assert(not self._serializationType)
 	assert(serializationType == "FAST" or serializationType == "STABLE" or serializationType == "CBOR" or serializationType == "NONE")
 	assert(serializationType ~= "CBOR" or self.SupportsCBOR())
 	self._serializationType = serializationType
@@ -85,6 +87,7 @@ end
 ---@return Encoder
 function Encoder:SetSerializationFilter(func)
 	assert(func and not self._serializeFilterFunc)
+	assert(self._serializationType == "FAST" or self._serializationType == "STABLE")
 	self._serializeFilterFunc = func
 	return self
 end

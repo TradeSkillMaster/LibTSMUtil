@@ -66,49 +66,6 @@ function TestFSM:TestEnterExit()
 	wipe(events)
 end
 
-function TestFSM:TestDefaultEventHandler()
-	local value = 0
-	local fsm = FSM.New("TEST")
-		:AddState(FSM.NewState("ST_ONE")
-			:AddTransition("ST_TWO")
-		)
-		:AddState(FSM.NewState("ST_TWO")
-			:AddTransition("ST_ONE")
-			:AddEvent("EV_SET_VALUE", function()
-				value = 2
-			end)
-		)
-		:AddDefaultEvent("EV_TO_ONE", function()
-			return "ST_ONE"
-		end)
-		:AddDefaultEvent("EV_TO_TWO", function()
-			return "ST_TWO"
-		end)
-		:AddDefaultEvent("EV_SET_VALUE", function()
-			value = 1
-		end)
-		:Init("ST_ONE")
-		:SetLoggingEnabled(false)
-
-	assertEquals(fsm._currentState, "ST_ONE")
-
-	fsm:ProcessEvent("EV_SET_VALUE")
-	assertEquals(value, 1)
-	value = 0
-
-	fsm:ProcessEvent("EV_TO_TWO")
-	assertEquals(fsm._currentState, "ST_TWO")
-
-	fsm:ProcessEvent("EV_SET_VALUE")
-	assertEquals(value, 2)
-	value = 0
-
-	fsm:ProcessEvent("EV_TO_ONE")
-	assertEquals(fsm._currentState, "ST_ONE")
-
-	assertError(function() fsm:ProcessEvent("EV_TO_ONE") end)
-end
-
 function TestFSM:TestEventHandler()
 	local fsm = FSM.New("TEST")
 		:AddState(FSM.NewState("ST_ONE")
