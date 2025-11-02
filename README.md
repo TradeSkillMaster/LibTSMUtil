@@ -59,7 +59,7 @@ local private = {
 
 function App.LoadSavedCharacters(settingsStr)
     String.SafeSplit(settingsStr, SAVED_CHARACTERS_SEP, private.characters)
-    for _, character in private.characters do
+    for _, character in ipairs(private.characters) do
         Log.Info("Loaded character: %s", character)
     end
 end
