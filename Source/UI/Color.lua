@@ -117,7 +117,7 @@ function Color:GetTint(tintPct)
 	end
 	if not self._tints[tintPct] then
 		local l = self._l + tintPct
-		l = min(l, 100)
+		l = max(min(l, 100), 0)
 		assert(private.IsValidValue(l, 100))
 		local r, g, b = HSLuv.ToRGB(self._h, self._s, l)
 		self._tints[tintPct] = Color(r, g, b, self._a)
