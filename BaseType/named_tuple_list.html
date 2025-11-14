@@ -1,0 +1,273 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Named Tuple List &mdash; LibTSMUtil  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/lua.css" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Object Pool" href="object_pool.html" />
+    <link rel="prev" title="Long String" href="long_string.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            LibTSMUtil
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lua/index.html">Lua</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Base Type</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="context_manager.html">Context Manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encoder.html">Encoder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enum_type.html">Enum Type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="future.html">Future</a></li>
+<li class="toctree-l2"><a class="reference internal" href="iterator.html">Iterator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="long_string.html">Long String</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Named Tuple List</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#api">API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#memory-management">Memory Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#lua-NamedTupleList"><code class="docutils literal notranslate"><span class="pre">NamedTupleList</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="object_pool.html">Object Pool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ordered_table.html">Ordered Table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="range.html">Range</a></li>
+<li class="toctree-l2"><a class="reference internal" href="signal.html">Signal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smart_map.html">Smart Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="temp_table.html">Temp Table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tree.html">Tree</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Util/index.html">Util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Format/index.html">Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../UI/index.html">UI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fsm.html">FSM</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">LibTSMUtil</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Base Type</a></li>
+      <li class="breadcrumb-item active">Named Tuple List</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="named-tuple-list">
+<h1>Named Tuple List<a class="headerlink" href="#named-tuple-list" title="Link to this heading"></a></h1>
+<p>It’s often desirable to be able to store lists of associated values without needing to strongly
+define each inner object and encapsulate them within individual tables. The <code class="docutils literal notranslate"><span class="pre">NamedTupleList</span></code>
+class provides an easy-to-use mechanism for this.</p>
+<section id="api">
+<h2>API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
+<p>Below is an example which demonstrates how to use a <code class="docutils literal notranslate"><span class="pre">NamedTupleList</span></code>.</p>
+<div class="highlight-lua notranslate"><div class="highlight"><pre><span></span><span class="kd">local</span><span class="w"> </span><span class="nv">MyModule</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">select</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p">...).</span><span class="nv">MyModule</span>
+<span class="kd">local</span><span class="w"> </span><span class="nv">NamedTupleList</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">MyModule</span><span class="p">:</span><span class="nf">From</span><span class="p">(</span><span class="s2">&quot;LibTSMUtil&quot;</span><span class="p">):</span><span class="nf">IncludeClassType</span><span class="p">(</span><span class="s2">&quot;NamedTupleList&quot;</span><span class="p">)</span>
+
+<span class="kd">local</span><span class="w"> </span><span class="nv">players</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">NamedTupleList</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;level&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;className&quot;</span><span class="p">)</span>
+
+<span class="nv">players</span><span class="p">:</span><span class="nf">InsertRow</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Warrior&quot;</span><span class="p">)</span>
+<span class="nv">players</span><span class="p">:</span><span class="nf">InsertRow</span><span class="p">(</span><span class="s2">&quot;Jeff&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Mage&quot;</span><span class="p">)</span>
+<span class="nv">players</span><span class="p">:</span><span class="nf">InsertRow</span><span class="p">(</span><span class="s2">&quot;Tim&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;Mage&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nv">players</span><span class="p">:</span><span class="nf">GetNumRows</span><span class="p">())</span><span class="w"> </span><span class="c1">-- 3</span>
+
+<span class="nv">player</span><span class="p">:</span><span class="nf">SetRowField</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;level&quot;</span><span class="p">,</span><span class="w"> </span><span class="nv">row</span><span class="p">:</span><span class="nf">GetRowField</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;level&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nv">players</span><span class="p">:</span><span class="nf">GetRow</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="w"> </span><span class="c1">-- Jeff    13    Mage</span>
+</pre></div>
+</div>
+</section>
+<section id="memory-management">
+<h2>Memory Management<a class="headerlink" href="#memory-management" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">NamedTupleList</span></code> objects are intended to never be GC’d and have a static lifecycle (i.e. one
+that’s equal to the lifecycle of the application), but there is nothing preventing them from being
+GC’d.</p>
+<dl class="lua class">
+<dt class="sig sig-object lua" id="lua-NamedTupleList">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">NamedTupleList</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">Class</span></code><a class="headerlink" href="#lua-NamedTupleList" title="Link to this definition"></a><br /></dt>
+<dd><dl class="lua staticmethod">
+<dt class="sig sig-object lua" id="lua-NamedTupleList.New">
+<em class="property"><span class="k"><span class="pre">staticmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">New</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">...</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">string</span></code><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-NamedTupleList" title="NamedTupleList"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">NamedTupleList</span></code></a><a class="headerlink" href="#lua-NamedTupleList.New" title="Link to this definition"></a><br /></dt>
+<dd><p>Creates a new named tuple list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>...</strong> (<code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">string</span></code>) – The tuple field names, in order</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua method">
+<dt class="sig sig-object lua" id="lua-NamedTupleList.InsertRow">
+<span class="sig-name descname"><span class="pre">InsertRow</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-NamedTupleList" title="NamedTupleList"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">NamedTupleList</span></code></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">...</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">any</span></code><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><a class="headerlink" href="#lua-NamedTupleList.InsertRow" title="Link to this definition"></a><br /></dt>
+<dd><p>Insert a row into the list and returns its index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>...</strong> (<code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">any</span></code>) – The row values</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua method">
+<dt class="sig sig-object lua" id="lua-NamedTupleList.GetNumRows">
+<span class="sig-name descname"><span class="pre">GetNumRows</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-NamedTupleList" title="NamedTupleList"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">NamedTupleList</span></code></a><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><a class="headerlink" href="#lua-NamedTupleList.GetNumRows" title="Link to this definition"></a><br /></dt>
+<dd><p>Gets the number of rows in the list.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="lua method">
+<dt class="sig sig-object lua" id="lua-NamedTupleList.GetRow">
+<span class="sig-name descname"><span class="pre">GetRow</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-NamedTupleList" title="NamedTupleList"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">NamedTupleList</span></code></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">rowIndex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">...</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">unknown</span></code><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#lua-NamedTupleList.GetRow" title="Link to this definition"></a><br /></dt>
+<dd><p>Gets the data for a given row.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>rowIndex</strong> (<code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code>) – The row index</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua method">
+<dt class="sig sig-object lua" id="lua-NamedTupleList.GetRowField">
+<span class="sig-name descname"><span class="pre">GetRowField</span></span><span class="p"><span class="pre">(</span></span><br /><span class="w">&#160;&#160;&#160; </span><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-NamedTupleList" title="NamedTupleList"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">NamedTupleList</span></code></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><br /><span class="w">&#160;&#160;&#160; </span><span class="n"><span class="pre">rowIndex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><span class="p"><span class="pre">,</span></span><span class="w"> </span><br /><span class="w">&#160;&#160;&#160; </span><span class="n"><span class="pre">fieldName</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">string</span></code><br /><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">any</span></code><a class="headerlink" href="#lua-NamedTupleList.GetRowField" title="Link to this definition"></a><br /></dt>
+<dd><p>Gets a single field for a given row.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rowIndex</strong> (<code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code>) – The row index</p></li>
+<li><p><strong>fieldName</strong> (<code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">string</span></code>) – The name of the field</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua method">
+<dt class="sig sig-object lua" id="lua-NamedTupleList.SetRowField">
+<span class="sig-name descname"><span class="pre">SetRowField</span></span><span class="p"><span class="pre">(</span></span><br /><span class="w">&#160;&#160;&#160; </span><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-NamedTupleList" title="NamedTupleList"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">NamedTupleList</span></code></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><br /><span class="w">&#160;&#160;&#160; </span><span class="n"><span class="pre">rowIndex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><span class="p"><span class="pre">,</span></span><span class="w"> </span><br /><span class="w">&#160;&#160;&#160; </span><span class="n"><span class="pre">fieldName</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">string</span></code><span class="p"><span class="pre">,</span></span><span class="w"> </span><br /><span class="w">&#160;&#160;&#160; </span><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">any</span></code><br /><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#lua-NamedTupleList.SetRowField" title="Link to this definition"></a><br /></dt>
+<dd><p>Sets a single field for a given row.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rowIndex</strong> (<code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code>) – The row index</p></li>
+<li><p><strong>fieldName</strong> (<code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">string</span></code>) – The name of the field</p></li>
+<li><p><strong>value</strong> (<code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">any</span></code>) – The field value</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua method">
+<dt class="sig sig-object lua" id="lua-NamedTupleList.RemoveRow">
+<span class="sig-name descname"><span class="pre">RemoveRow</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-NamedTupleList" title="NamedTupleList"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">NamedTupleList</span></code></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">rowIndex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#lua-NamedTupleList.RemoveRow" title="Link to this definition"></a><br /></dt>
+<dd><p>Removes a row at a given index.</p>
+<p>NOTE: This will invalidate other row indexes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>rowIndex</strong> (<code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code>) – The row index</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua method">
+<dt class="sig sig-object lua" id="lua-NamedTupleList.Iterator">
+<span class="sig-name descname"><span class="pre">Iterator</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-NamedTupleList" title="NamedTupleList"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">NamedTupleList</span></code></a><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">fun</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">...</span></span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">unknown</span></code><span class="p"><span class="pre">,</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">table</span></code><span class="p"><span class="pre">,</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><a class="headerlink" href="#lua-NamedTupleList.Iterator" title="Link to this definition"></a><br /></dt>
+<dd><p>Iterates over each row in the list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>_1</strong> (<span class="k">fun</span><span class="p">(</span><span class="p">)</span><span class="p">:</span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><span class="p">,</span><span class="w"> </span><span class="n">...</span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">unknown</span></code>) – Iterator with fields: <cite>rowIndex</cite>, …</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua method">
+<dt class="sig sig-object lua" id="lua-NamedTupleList.Wipe">
+<span class="sig-name descname"><span class="pre">Wipe</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-NamedTupleList" title="NamedTupleList"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">NamedTupleList</span></code></a><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#lua-NamedTupleList.Wipe" title="Link to this definition"></a><br /></dt>
+<dd><p>Wipes the list.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="long_string.html" class="btn btn-neutral float-left" title="Long String" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="object_pool.html" class="btn btn-neutral float-right" title="Object Pool" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, TradeSkillMaster LLC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

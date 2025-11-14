@@ -1,0 +1,352 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Range &mdash; LibTSMUtil  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/lua.css" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Signal" href="signal.html" />
+    <link rel="prev" title="Ordered Table" href="ordered_table.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            LibTSMUtil
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lua/index.html">Lua</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Base Type</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="context_manager.html">Context Manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="encoder.html">Encoder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enum_type.html">Enum Type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="future.html">Future</a></li>
+<li class="toctree-l2"><a class="reference internal" href="iterator.html">Iterator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="long_string.html">Long String</a></li>
+<li class="toctree-l2"><a class="reference internal" href="named_tuple_list.html">Named Tuple List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="object_pool.html">Object Pool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ordered_table.html">Ordered Table</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Range</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#example">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#memory-management">Memory Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api">API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#lua-Range"><code class="docutils literal notranslate"><span class="pre">Range</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="signal.html">Signal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smart_map.html">Smart Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="temp_table.html">Temp Table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tree.html">Tree</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Util/index.html">Util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Format/index.html">Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../UI/index.html">UI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fsm.html">FSM</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">LibTSMUtil</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Base Type</a></li>
+      <li class="breadcrumb-item active">Range</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="range">
+<h1>Range<a class="headerlink" href="#range" title="Link to this heading"></a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">Range</span></code> class makes it simple to represent and perform operations on a range of numeric
+values.</p>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<p>Below is an example which demonstrates how to use the <code class="docutils literal notranslate"><span class="pre">Range</span></code> class.</p>
+<div class="highlight-lua notranslate"><div class="highlight"><pre><span></span><span class="kd">local</span><span class="w"> </span><span class="nv">MyModule</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">select</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p">...).</span><span class="nv">MyModule</span>
+<span class="kd">local</span><span class="w"> </span><span class="nv">Range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">MyModule</span><span class="p">:</span><span class="nf">From</span><span class="p">(</span><span class="s2">&quot;LibTSMUtil&quot;</span><span class="p">):</span><span class="nf">IncludeClassType</span><span class="p">(</span><span class="s2">&quot;Range&quot;</span><span class="p">)</span>
+
+<span class="kr">do</span>
+<span class="w">   </span><span class="kd">local</span><span class="w"> </span><span class="nv">spellRange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">Range</span><span class="p">.</span><span class="nf">AcquireStartEnd</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span>
+<span class="w">   </span><span class="kd">local</span><span class="w"> </span><span class="nv">enemyStrikeRange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">Range</span><span class="p">.</span><span class="nf">AcquireStartEnd</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span>
+
+<span class="w">   </span><span class="kd">local</span><span class="w"> </span><span class="nv">currentDistance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span>
+<span class="w">   </span><span class="nb">print</span><span class="p">(</span><span class="nv">spellRange</span><span class="p">:</span><span class="nf">Includes</span><span class="p">(</span><span class="nv">currentDistance</span><span class="p">))</span><span class="w"> </span><span class="c1">-- true</span>
+<span class="w">   </span><span class="nb">print</span><span class="p">(</span><span class="nv">enemyStrikeRange</span><span class="p">:</span><span class="nf">Includes</span><span class="p">(</span><span class="nv">currentDistance</span><span class="p">))</span><span class="w"> </span><span class="c1">-- false</span>
+
+<span class="w">   </span><span class="nv">spellRange</span><span class="p">:</span><span class="nf">Release</span><span class="p">()</span>
+<span class="w">   </span><span class="nv">enemyStrikeRange</span><span class="p">:</span><span class="nf">Release</span><span class="p">()</span>
+<span class="kr">end</span>
+
+<span class="kr">do</span>
+<span class="w">   </span><span class="kd">local</span><span class="w"> </span><span class="nv">groupLevelRange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">Range</span><span class="p">.</span><span class="nf">AcquireStartEnd</span><span class="p">(</span><span class="mi">73</span><span class="p">,</span><span class="w"> </span><span class="mi">74</span><span class="p">)</span>
+<span class="w">   </span><span class="kd">local</span><span class="w"> </span><span class="nv">zoneLevelRange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">Range</span><span class="p">.</span><span class="nf">AcquireStartEnd</span><span class="p">(</span><span class="mi">71</span><span class="p">,</span><span class="w"> </span><span class="mi">75</span><span class="p">)</span>
+
+<span class="w">   </span><span class="nb">print</span><span class="p">(</span><span class="nv">zoneLevelRange</span><span class="p">:</span><span class="nf">Contains</span><span class="p">(</span><span class="nv">groupLevelRange</span><span class="p">))</span><span class="w"> </span><span class="c1">-- true</span>
+
+<span class="w">   </span><span class="nv">groupLevelRange</span><span class="p">:</span><span class="nf">Release</span><span class="p">()</span>
+<span class="w">   </span><span class="nv">zoneLevelRange</span><span class="p">:</span><span class="nf">Release</span><span class="p">()</span>
+<span class="kr">end</span>
+</pre></div>
+</div>
+</section>
+<section id="memory-management">
+<h2>Memory Management<a class="headerlink" href="#memory-management" title="Link to this heading"></a></h2>
+<p>The lifecycle of range objects is owned by the Range module. They are acquired via the
+<code class="docutils literal notranslate"><span class="pre">Range.Acquire*()</span></code> functions and its up to the caller to ensure they are properly released back
+to the Range module for recycling by calling the <code class="docutils literal notranslate"><span class="pre">Release()</span></code> method. It’s also possible to
+create a static <code class="docutils literal notranslate"><span class="pre">Range</span></code> object which is owned by the application layer via the
+<code class="docutils literal notranslate"><span class="pre">Range.StaticStartEnd()</span></code> function.</p>
+</section>
+<section id="api">
+<h2>API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
+<dl class="lua class">
+<dt class="sig sig-object lua" id="lua-Range">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Range</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">Class</span></code><a class="headerlink" href="#lua-Range" title="Link to this definition"></a><br /></dt>
+<dd><dl class="lua staticmethod">
+<dt class="sig sig-object lua" id="lua-Range.StaticStartEnd">
+<em class="property"><span class="k"><span class="pre">staticmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">StaticStartEnd</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">startValue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">endValue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-Range" title="Range"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">Range</span></code></a><a class="headerlink" href="#lua-Range.StaticStartEnd" title="Link to this definition"></a><br /></dt>
+<dd><p>Acquires a static range object (can’t be released or mutated) for a given start and end value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>startValue</strong> (<code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code>) – The start value of the range</p></li>
+<li><p><strong>endValue</strong> (<code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code>) – The end value of the range</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua staticmethod">
+<dt class="sig sig-object lua" id="lua-Range.AcquireStartEnd">
+<em class="property"><span class="k"><span class="pre">staticmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AcquireStartEnd</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">startValue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">endValue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-Range" title="Range"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">Range</span></code></a><a class="headerlink" href="#lua-Range.AcquireStartEnd" title="Link to this definition"></a><br /></dt>
+<dd><p>Acquires a range object for a given start and end value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>startValue</strong> (<code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code>) – The start value of the range</p></li>
+<li><p><strong>endValue</strong> (<code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code>) – The end value of the range</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua staticmethod">
+<dt class="sig sig-object lua" id="lua-Range.AcquireStartLength">
+<em class="property"><span class="k"><span class="pre">staticmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AcquireStartLength</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">startValue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-Range" title="Range"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">Range</span></code></a><a class="headerlink" href="#lua-Range.AcquireStartLength" title="Link to this definition"></a><br /></dt>
+<dd><p>Acquires a range object from a given start value and length.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>startValue</strong> (<code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code>) – The start value of the range</p></li>
+<li><p><strong>length</strong> (<code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code>) – The length of the range</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua method">
+<dt class="sig sig-object lua" id="lua-Range.Release">
+<span class="sig-name descname"><span class="pre">Release</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-Range" title="Range"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">Range</span></code></a><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#lua-Range.Release" title="Link to this definition"></a><br /></dt>
+<dd><p>Releases the range object.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="lua method">
+<dt class="sig sig-object lua" id="lua-Range.SetStartEnd">
+<span class="sig-name descname"><span class="pre">SetStartEnd</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-Range" title="Range"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">Range</span></code></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">startValue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">endValue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-Range" title="Range"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">Range</span></code></a><a class="headerlink" href="#lua-Range.SetStartEnd" title="Link to this definition"></a><br /></dt>
+<dd><p>Sets the start value and end value of the range.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>startValue</strong> (<code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code>) – The start value of the range</p></li>
+<li><p><strong>endValue</strong> (<code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code>) – The end value of the range</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua method">
+<dt class="sig sig-object lua" id="lua-Range.SetStartLength">
+<span class="sig-name descname"><span class="pre">SetStartLength</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-Range" title="Range"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">Range</span></code></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">startValue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">length</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-Range" title="Range"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">Range</span></code></a><a class="headerlink" href="#lua-Range.SetStartLength" title="Link to this definition"></a><br /></dt>
+<dd><p>Sets the start value and length of the range.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>startValue</strong> (<code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code>) – The start value of the range</p></li>
+<li><p><strong>length</strong> (<code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code>) – The length of the range</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua method">
+<dt class="sig sig-object lua" id="lua-Range.GetValues">
+<span class="sig-name descname"><span class="pre">GetValues</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-Range" title="Range"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">Range</span></code></a><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">startValue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">endValue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><span class="p"><span class="pre">)</span></span><a class="headerlink" href="#lua-Range.GetValues" title="Link to this definition"></a><br /></dt>
+<dd><p>Gets the start and end values of a range.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="lua method">
+<dt class="sig sig-object lua" id="lua-Range.GetStart">
+<span class="sig-name descname"><span class="pre">GetStart</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-Range" title="Range"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">Range</span></code></a><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><a class="headerlink" href="#lua-Range.GetStart" title="Link to this definition"></a><br /></dt>
+<dd><p>Gets the start value of the range.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="lua method">
+<dt class="sig sig-object lua" id="lua-Range.GetEnd">
+<span class="sig-name descname"><span class="pre">GetEnd</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-Range" title="Range"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">Range</span></code></a><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><a class="headerlink" href="#lua-Range.GetEnd" title="Link to this definition"></a><br /></dt>
+<dd><p>Gets the end value of the range.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="lua method">
+<dt class="sig sig-object lua" id="lua-Range.GetLength">
+<span class="sig-name descname"><span class="pre">GetLength</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-Range" title="Range"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">Range</span></code></a><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><a class="headerlink" href="#lua-Range.GetLength" title="Link to this definition"></a><br /></dt>
+<dd><p>Gets the length of the range.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="lua method">
+<dt class="sig sig-object lua" id="lua-Range.IntersectionLength">
+<span class="sig-name descname"><span class="pre">IntersectionLength</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-Range" title="Range"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">Range</span></code></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-Range" title="Range"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">Range</span></code></a><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><a class="headerlink" href="#lua-Range.IntersectionLength" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the length of the intersection with another range or 0 if they don’t intersect.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#lua-Range" title="Range"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">Range</span></code></a>) – The other range</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua method">
+<dt class="sig sig-object lua" id="lua-Range.Includes">
+<span class="sig-name descname"><span class="pre">Includes</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-Range" title="Range"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">Range</span></code></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">boolean</span></code><a class="headerlink" href="#lua-Range.Includes" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns whether or not the range includes a value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> (<code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code>) – The value to check</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua method">
+<dt class="sig sig-object lua" id="lua-Range.Contains">
+<span class="sig-name descname"><span class="pre">Contains</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-Range" title="Range"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">Range</span></code></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-Range" title="Range"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">Range</span></code></a><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">boolean</span></code><a class="headerlink" href="#lua-Range.Contains" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns whether or not the range completely contains another range.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#lua-Range" title="Range"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">Range</span></code></a>) – The other range</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua method">
+<dt class="sig sig-object lua" id="lua-Range.StartsBefore">
+<span class="sig-name descname"><span class="pre">StartsBefore</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-Range" title="Range"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">Range</span></code></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-Range" title="Range"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">Range</span></code></a><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">boolean</span></code><a class="headerlink" href="#lua-Range.StartsBefore" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns whether or not the range starts before another range.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#lua-Range" title="Range"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">Range</span></code></a>) – The other range</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="lua method">
+<dt class="sig sig-object lua" id="lua-Range.Iterator">
+<span class="sig-name descname"><span class="pre">Iterator</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-Range" title="Range"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">Range</span></code></a><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">fun</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><span class="p"><span class="pre">,</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><span class="p"><span class="pre">,</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code><a class="headerlink" href="#lua-Range.Iterator" title="Link to this definition"></a><br /></dt>
+<dd><p>Iterates over the integer values in the range.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>_1</strong> (<span class="k">fun</span><span class="p">(</span><span class="p">)</span><span class="p">:</span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">number</span></code>) – Iterator with fields: <cite>value</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ordered_table.html" class="btn btn-neutral float-left" title="Ordered Table" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="signal.html" class="btn btn-neutral float-right" title="Signal" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, TradeSkillMaster LLC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
