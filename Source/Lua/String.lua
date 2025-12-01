@@ -95,14 +95,13 @@ end
 ---Iterates over the parts of a string which are separated by a character.
 ---@param str string The string to be split
 ---@param sep string The separator to use to split the string
----@param allowEmpty? boolean Allow empty string parts
 ---@return fun(): string @Iterator with fields: `part`
-function String.SplitIterator(str, sep, allowEmpty)
+function String.SplitIterator(str, sep)
 	assert(#sep == 1)
 	if MAGIC_CHARACTERS[sep] then
 		sep = "%"..sep
 	end
-	return gmatch(str, "([^"..sep.."]"..(allowEmpty and "*" or "+")..")")
+	return gmatch(str, "[^"..sep.."]+")
 end
 
 ---Generates a pattern matching string from a format string.
