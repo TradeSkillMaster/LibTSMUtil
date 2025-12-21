@@ -16,6 +16,7 @@ local TEMP_VALUE = newproxy(false) ---@type EnumValue
 ---@class EnumObject
 ---@field HasValue fun(self: EnumObject, value: EnumValue|any): boolean
 ---@class EnumValue
+---@field GetType fun(self: EnumValue): EnumObject
 
 
 
@@ -29,9 +30,10 @@ local TYPE_MT = {
 	end,
 	__index = function(_, key)
 		if key == "HasValue" then
-			return private.HasValue
+			return private.TypeHasValue
+		else
+			error("Unknown enum value: "..tostring(key))
 		end
-		error("Unknown enum value: "..tostring(key))
 	end,
 	__tostring = function(self)
 		return private.typeStr[self]
@@ -42,12 +44,15 @@ local VALUE_MT = {
 	__newindex = function()
 		error("Enum value is read-only")
 	end,
-	__index = function(self, key)
-		-- Wow's table inspector checks for this key - so just silently ignore it
+	__index = function(_, key)
 		if key == "GetDebugName" then
+			-- Wow's table inspector checks for this key - so just silently ignore it
 			return nil
+		elseif key == "GetType" then
+			return private.ValueGetType
+		else
+			error("Unknown enum value property: "..tostring(key))
 		end
-		error("Unknown enum value: "..tostring(self).."."..tostring(key))
 	end,
 	__tostring = function(self)
 		local str = private.valueStr[self]
@@ -160,7 +165,7 @@ function private.TrackValue(parentType, key, isNested)
 	end
 end
 
-function private.HasValue(enumType, value)
+function private.TypeHasValue(enumType, value)
 	-- Walk up the tree to handle nested enums
 	local checkType = private.valueTypeMap[value]
 	while checkType do
@@ -170,4 +175,13 @@ function private.HasValue(enumType, value)
 		checkType = private.valueTypeMap[checkType]
 	end
 	return false
+end
+
+function private.ValueGetType(value)
+	local valueType = private.valueTypeMap[value]
+	assert(valueType)
+	while private.valueTypeMap[valueType] do
+		valueType = private.valueTypeMap[valueType]
+	end
+	return valueType
 end

@@ -33,6 +33,9 @@ function TestEnumType:TestBasic()
 	assertTrue(EnumType.IsType(DOG))
 	assertFalse(EnumType.IsType(DOG.POODLE))
 
+	assertTrue(DOG.POODLE:GetType() == DOG)
+	assertFalse(DOG.POODLE:GetType() == CAT)
+
 	assertEquals(tostring(DOG), "DOG")
 	assertEquals(tostring(DOG.POODLE), "DOG.POODLE")
 end
@@ -78,6 +81,8 @@ function TestEnumType:TestNested()
 
 	assertTrue(EnumType.IsType(ANIMAL))
 	assertFalse(EnumType.IsType(ANIMAL.CAT))
+
+	assertTrue(ANIMAL.DOG.POODLE:GetType() == ANIMAL)
 
 	assertEquals(tostring(ANIMAL), "ANIMAL")
 	assertEquals(tostring(ANIMAL.CAT), "ANIMAL.CAT")
