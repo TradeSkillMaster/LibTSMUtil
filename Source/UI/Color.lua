@@ -77,6 +77,10 @@ function Color:__tostring()
 	return "Color:"..self._hex
 end
 
+function Color:__equals(other)
+	return self._hex == other._hex
+end
+
 ---Sets the RGBA values of the color as values from 0 to 255.
 ---@param r number
 ---@param g number
@@ -196,13 +200,6 @@ end
 function Color:GetTextColorPrefix()
 	assert(self._hex)
 	return format("|c%02x%02x%02x%02x", self._a, self._r, self._g, self._b)
-end
-
----Compares two colors for equality.
----@param other Color
----@return boolean
-function Color:Equals(other)
-	return self:GetHex() == other:GetHex()
 end
 
 
