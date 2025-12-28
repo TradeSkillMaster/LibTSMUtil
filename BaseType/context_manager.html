@@ -1,0 +1,217 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Context Manager &mdash; LibTSMUtil  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/lua.css" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Encoder" href="encoder.html" />
+    <link rel="prev" title="Base Type" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            LibTSMUtil
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Lua/index.html">Lua</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Base Type</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Context Manager</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#example">Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api">API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#lua-BaseType.ContextManager"><code class="docutils literal notranslate"><span class="pre">BaseType.ContextManager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lua-ContextManagerObject"><code class="docutils literal notranslate"><span class="pre">ContextManagerObject</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="encoder.html">Encoder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enum_type.html">Enum Type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="future.html">Future</a></li>
+<li class="toctree-l2"><a class="reference internal" href="iterator.html">Iterator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="long_string.html">Long String</a></li>
+<li class="toctree-l2"><a class="reference internal" href="named_tuple_list.html">Named Tuple List</a></li>
+<li class="toctree-l2"><a class="reference internal" href="object_pool.html">Object Pool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ordered_table.html">Ordered Table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="range.html">Range</a></li>
+<li class="toctree-l2"><a class="reference internal" href="signal.html">Signal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smart_map.html">Smart Map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="temp_table.html">Temp Table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tree.html">Tree</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Util/index.html">Util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Format/index.html">Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../UI/index.html">UI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../fsm.html">FSM</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">LibTSMUtil</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Base Type</a></li>
+      <li class="breadcrumb-item active">Context Manager</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="context-manager">
+<h1>Context Manager<a class="headerlink" href="#context-manager" title="Link to this heading"></a></h1>
+<p>The context manager module provides a python-like context manager syntax in Lua with a few
+limitations. Specifically, using <code class="docutils literal notranslate"><span class="pre">break</span></code> or <code class="docutils literal notranslate"><span class="pre">return</span></code> within the context manager is not
+supported due to the way Lua’s GC works and the lack of any concrete way to trigger some cleanup
+code to run when a variable loses scope.</p>
+<p>Context managers can either be called standalone (as shown in the example below) in which case
+the for loop block will be executed exactly once, with the enter and exit functions being called
+before and after the loop respectively, or they can wrap another iterator, in which case the for
+loop variables are passed through and the enter and exit functions are called before the first
+iteration and after the last iteration respectively.</p>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<p>A common situation where context managers are helpful is to measure the execution time of a block
+of code. LibTSMUtil provides the <code class="docutils literal notranslate"><span class="pre">ExecutionTime</span></code> module for this purpose, but below is a
+simplified implemention to demonstration how the context manager module can be used.</p>
+<div class="highlight-lua notranslate"><div class="highlight"><pre><span></span><span class="kd">local</span><span class="w"> </span><span class="nv">MyModule</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">select</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="p">...).</span><span class="nv">MyModule</span>
+<span class="kd">local</span><span class="w"> </span><span class="nv">ContextManager</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">MyModule</span><span class="p">:</span><span class="nf">From</span><span class="p">(</span><span class="s2">&quot;LibTSMUtil&quot;</span><span class="p">):</span><span class="nf">Include</span><span class="p">(</span><span class="s2">&quot;BaseType.ContextManager&quot;</span><span class="p">)</span>
+
+<span class="kd">local</span><span class="w"> </span><span class="kr">function</span><span class="w"> </span><span class="nf">EnterFunc</span><span class="p">(</span><span class="nv">arg</span><span class="p">)</span>
+<span class="w">   </span><span class="nb">print</span><span class="p">(</span><span class="nf">format</span><span class="p">(</span><span class="s2">&quot;Started block (%s)&quot;</span><span class="p">,</span><span class="w"> </span><span class="nv">arg</span><span class="p">))</span>
+<span class="w">   </span><span class="kr">return</span><span class="w"> </span><span class="nv">LibTSMUtil</span><span class="p">.</span><span class="nf">GetTime</span><span class="p">()</span>
+<span class="kr">end</span>
+<span class="kd">local</span><span class="w"> </span><span class="kr">function</span><span class="w"> </span><span class="nf">ExitFunc</span><span class="p">(</span><span class="nv">arg</span><span class="p">,</span><span class="w"> </span><span class="nv">startTime</span><span class="p">)</span>
+<span class="w">   </span><span class="kd">local</span><span class="w"> </span><span class="nv">elapsed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">LibTSMUtil</span><span class="p">.</span><span class="nf">GetTime</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nv">startTime</span>
+<span class="w">   </span><span class="nb">print</span><span class="p">(</span><span class="nf">format</span><span class="p">(</span><span class="s2">&quot;Completed block (%s) after %d seconds&quot;</span><span class="p">,</span><span class="w"> </span><span class="nv">arg</span><span class="p">,</span><span class="w"> </span><span class="nv">elapsed</span><span class="p">))</span>
+<span class="kr">end</span>
+<span class="kd">local</span><span class="w"> </span><span class="nv">measurementContextObj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">ContextManager</span><span class="p">.</span><span class="nf">Create</span><span class="p">(</span><span class="nv">EnterFunc</span><span class="p">,</span><span class="w"> </span><span class="nv">ExitFunc</span><span class="p">)</span>
+
+<span class="kd">local</span><span class="w"> </span><span class="nv">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="kr">for</span><span class="w"> </span><span class="nv">_</span><span class="p">,</span><span class="w"> </span><span class="nv">value</span><span class="w"> </span><span class="kr">in</span><span class="w"> </span><span class="nv">measurementContextObj</span><span class="p">:</span><span class="nf">With</span><span class="p">(</span><span class="s2">&quot;CALCULATE_SUM&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">ipairs</span><span class="p">({</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">}))</span><span class="w"> </span><span class="kr">do</span>
+<span class="w">   </span><span class="nv">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">sum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nv">value</span>
+<span class="kr">end</span>
+</pre></div>
+</div>
+</section>
+<section id="api">
+<h2>API<a class="headerlink" href="#api" title="Link to this heading"></a></h2>
+<dl class="lua class">
+<dt class="sig sig-object lua" id="lua-BaseType.ContextManager">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">BaseType.</span></span><span class="sig-name descname"><span class="pre">ContextManager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">LibTSMModule</span></code><a class="headerlink" href="#lua-BaseType.ContextManager" title="Link to this definition"></a><br /></dt>
+<dd><dl class="lua staticmethod">
+<dt class="sig sig-object lua" id="lua-BaseType.ContextManager.Create">
+<em class="property"><span class="k"><span class="pre">staticmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Create</span></span><span class="p"><span class="pre">(</span></span><br /><span class="w">&#160;&#160;&#160; </span><span class="n"><span class="pre">enterFunc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">fun</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">arg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="p"><span class="pre">&lt;</span></span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">A</span></code><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="p"><span class="pre">&lt;</span></span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">E</span></code><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><br /><span class="w">&#160;&#160;&#160; </span><span class="n"><span class="pre">exitFunc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">fun</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">arg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="p"><span class="pre">&lt;</span></span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">A</span></code><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">enterValue</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="p"><span class="pre">&lt;</span></span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">E</span></code><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">)</span></span><br /><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-ContextManagerObject" title="ContextManagerObject"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">ContextManagerObject</span></code></a><a class="headerlink" href="#lua-BaseType.ContextManager.Create" title="Link to this definition"></a><br /></dt>
+<dd><p>Creates a context manager.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>enterFunc</strong> (<span class="k">fun</span><span class="p">(</span><span class="n">arg</span><span class="p">:</span><span class="w"> </span><span class="p">&lt;</span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">A</span></code><span class="p">&gt;</span><span class="p">)</span><span class="p">:</span><span class="w"> </span><span class="p">&lt;</span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">E</span></code><span class="p">&gt;</span>) – The enter function which is called when the managed code block starts</p></li>
+<li><p><strong>exitFunc</strong> (<span class="k">fun</span><span class="p">(</span><span class="n">arg</span><span class="p">:</span><span class="w"> </span><span class="p">&lt;</span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">A</span></code><span class="p">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">enterValue</span><span class="p">:</span><span class="w"> </span><span class="p">&lt;</span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">E</span></code><span class="p">&gt;</span><span class="p">)</span>) – The exit function which is called when the managed code block completes</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="lua class">
+<dt class="sig sig-object lua" id="lua-ContextManagerObject">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ContextManagerObject</span></span><a class="headerlink" href="#lua-ContextManagerObject" title="Link to this definition"></a><br /></dt>
+<dd><dl class="lua method">
+<dt class="sig sig-object lua" id="lua-ContextManagerObject.With">
+<span class="sig-name descname"><span class="pre">With</span></span><span class="p"><span class="pre">(</span></span><br /><span class="w">&#160;&#160;&#160; </span><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#lua-ContextManagerObject" title="ContextManagerObject"><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">ContextManagerObject</span></code></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><br /><span class="w">&#160;&#160;&#160; </span><span class="n"><span class="pre">arg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">any</span></code><span class="p"><span class="pre">,</span></span><span class="w"> </span><br /><span class="w">&#160;&#160;&#160; </span><span class="n"><span class="pre">func?</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">fun</span></span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">any</span></code><span class="p"><span class="pre">,</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">key</span></code><span class="p"><span class="pre">?</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">any</span></code><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">...</span></span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">unknown</span></code><span class="p"><span class="pre">,</span></span><span class="w"> </span><br /><span class="w">&#160;&#160;&#160; </span><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">any</span></code><span class="p"><span class="pre">,</span></span><span class="w"> </span><br /><span class="w">&#160;&#160;&#160; </span><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">any</span></code><br /><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">function</span></code><span class="p"><span class="pre">,</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">any</span></code><span class="p"><span class="pre">,</span></span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">any</span></code><a class="headerlink" href="#lua-ContextManagerObject.With" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns an iterator which executes to completion with the context manager.</p>
+<p><strong>NOTE:</strong> The iterator must not be interrupted (i.e. with a <cite>break</cite> or <cite>return</cite>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arg</strong> (<code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">any</span></code>) – A value to pass as the first argument to the enter and exit functions (must be non-nil)</p></li>
+<li><p><strong>func?</strong> (<span class="k">fun</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">any</span></code><span class="p">,</span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">key</span></code><span class="p">?</span><span class="p">:</span><span class="w"> </span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">any</span></code><span class="p">)</span><span class="p">:</span><span class="w"> </span><span class="n">...</span><code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">unknown</span></code>) – The iterator function or nil to iterate exactly once</p></li>
+<li><p><strong>obj</strong> (<code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">any</span></code>) – The object to pass to the iterator function</p></li>
+<li><p><strong>key</strong> (<code class="xref lua lua-_auto docutils literal notranslate"><span class="pre">any</span></code>) – The initial key to pass to the iterator function</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Base Type" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="encoder.html" class="btn btn-neutral float-right" title="Encoder" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, TradeSkillMaster LLC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
