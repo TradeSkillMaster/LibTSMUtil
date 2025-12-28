@@ -33,7 +33,7 @@ If you're using the `BigWigs packager`_, you can reference LibTSMUtil as an exte
 
 Otherwise, you can download the `latest release directly from GitHub`_.
 
-.. _BigWigs packager: https://github.com/rossnichols/LibSerialize
+.. _BigWigs packager: https://github.com/BigWigsMods/packager
 .. _latest release directly from GitHub: https://github.com/TradeSkillMaster/LibTSMUtil/releases
 
 Basic Usage
