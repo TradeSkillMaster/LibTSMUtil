@@ -95,6 +95,15 @@ function OrderedTable.KeyIterator(tbl)
 	return private.KeyIteratorHelper, tbl
 end
 
+---Concatenate the keys into a string.
+---@generic K, V
+---@param tbl OrderedTable.Table<K,V>
+---@param sep string The separator string
+---@return string
+function OrderedTable.ConcatKeys(tbl, sep)
+	return table.concat(tbl, sep)
+end
+
 
 
 -- ============================================================================
