@@ -5,6 +5,7 @@
 -- ------------------------------------------------------------------------------ --
 
 local LibTSMUtil = select(2, ...).LibTSMUtil
+---@generic T
 local Future = LibTSMUtil:DefineClassType("Future")
 local EnumType = LibTSMUtil:Include("BaseType.EnumType")
 local STATE = EnumType.New("FUTURE_STATE", {
@@ -86,7 +87,9 @@ function Future:Cancel()
 end
 
 ---Marks the future as done with the specified result value.
----@param value any The reuslt value
+---@generic T
+---@param self Future<T>
+---@param value T The result value
 function Future:Done(value)
 	assert(self._state == STATE.STARTED)
 	self._state = STATE.DONE
@@ -104,7 +107,9 @@ function Future:IsDone()
 end
 
 ---Gets the result value from a future in the done state.
----@return any
+---@generic T
+---@param self Future<T>
+---@return T
 function Future:GetValue()
 	assert(self._state == STATE.DONE)
 	local value = self._value

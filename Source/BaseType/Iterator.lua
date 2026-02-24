@@ -55,6 +55,7 @@ local ITERATOR_MT = {
 -- ============================================================================
 
 Iterator:OnModuleLoad(function()
+	---@type ObjectPool<IteratorObject>
 	private.objectPool = ObjectPool.New("ITERATOR", function()
 		local iter = setmetatable({}, ITERATOR_MT)
 		private.context[iter] = {
@@ -80,7 +81,7 @@ end)
 ---@return IteratorObject
 function Iterator.Acquire(func, obj, key, ...)
 	assert(type(func) == "function")
-	local iter = private.objectPool:Get() ---@type IteratorObject
+	local iter = private.objectPool:Get()
 	local context = private.context[iter]
 	assert(context and not context.func)
 	context.func = func

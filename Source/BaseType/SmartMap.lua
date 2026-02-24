@@ -5,6 +5,7 @@
 -- ------------------------------------------------------------------------------ --
 
 local LibTSMUtil = select(2, ...).LibTSMUtil
+---@generic K, V
 local SmartMap = LibTSMUtil:DefineClassType("SmartMap")
 local private = {
 	readerContext = {}, ---@type table<SmartMapReader,SmartMapReaderContext>
@@ -53,7 +54,7 @@ local VALID_VALUE_TYPES = { ---@type table<SmartMapValueType,true>
 ---@param keyType SmartMapKeyType The type of the keys
 ---@param valueType SmartMapValueType The type of the values
 ---@param lookupFunc fun(key: K): V A function which looks up the value for a specific key
----@return SmartMap
+---@return SmartMap<K, V>
 function SmartMap.__static.New(keyType, valueType, lookupFunc)
 	assert(VALID_KEY_TYPES[keyType] and VALID_VALUE_TYPES[valueType])
 	return SmartMap(keyType, valueType, lookupFunc)
@@ -65,7 +66,9 @@ end
 -- SmartMapReader Metatable
 -- ============================================================================
 
----@class SmartMapReader
+---@class SmartMapReader<K, V>
+---@operator call(K): V
+---@field [K] V
 
 local READER_MT = {
 	__index = function(self, key)
@@ -111,7 +114,9 @@ end
 -- ============================================================================
 
 ---Called when the value has changed for a given key to fetch the new one and notify the readers.
----@param key SmartMapKey The key which changed
+---@generic K, V
+---@param self SmartMap<K, V>
+---@param key K The key which changed
 function SmartMap:ValueChanged(key)
 	local oldValue = self._data[key]
 	if oldValue == nil then
@@ -178,8 +183,10 @@ function SmartMap:SetCallbacksPaused(paused)
 end
 
 ---Creates a new reader.
----@param callback? fun(reader: SmartMapReader, pendingChanges: table) The function to call when a value within the map changes
----@return SmartMapReader
+---@generic K, V
+---@param self SmartMap<K, V>
+---@param callback? fun(reader: SmartMapReader<K, V>, pendingChanges: table) The function to call when a value within the map changes
+---@return SmartMapReader<K, V>
 function SmartMap:CreateReader(callback)
 	assert(callback == nil or type(callback) == "function")
 	local reader = setmetatable({}, READER_MT)

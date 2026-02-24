@@ -1,3 +1,4 @@
 ignore:
+  - LuaLSPlugin
   - Tests
   - README.md
