@@ -13,12 +13,15 @@ if string.match(package.path, "\\%?") then
 	rootPath = string.gsub(rootPath, "/", "\\")
 	package.path = package.path .. ";" .. rootPath .. "\\..\\LibTSMClass\\LuaLSPlugin\\?.lua"
 	package.path = package.path .. ";" .. rootPath .. "\\..\\LibTSMCore\\LuaLSPlugin\\?.lua"
+	package.path = package.path .. ";" .. rootPath .. "\\LuaLSPlugin\\?.lua"
 else
 	package.path = package.path .. ";" .. rootPath .. "/../LibTSMClass/LuaLSPlugin/?.lua"
 	package.path = package.path .. ";" .. rootPath .. "/../LibTSMCore/LuaLSPlugin/?.lua"
+	package.path = package.path .. ";" .. rootPath .. "/LuaLSPlugin/?.lua"
 end
 
 local LibTSMCorePlugin = require("LibTSMCoreLuaLSPlugin")
+local LibTSMUtilPlugin = require("LibTSMUtilLuaLSPlugin")
 
 ---@param uri string
 ---@param text string
@@ -28,5 +31,6 @@ function OnSetText(uri, text)
 		return
 	end
 	LibTSMCorePlugin.ProcessContext(context)
+	LibTSMUtilPlugin.ProcessContext(context)
 	return context.diffs
 end

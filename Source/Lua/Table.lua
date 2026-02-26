@@ -48,8 +48,7 @@ end
 
 ---Uses a function to filter the entries in a table.
 ---@param tbl table The table to be filtered
----@param func fun(key, value, ...): boolean The filter function which gets passed `key, value, ...` and returns true if
----that entry should be removed from the table
+---@param func fun(key, value, ...): boolean The filter function which gets passed `key, value, ...` and returns true if that entry should be removed from the table
 ---@param ... any Optional arguments to be passed to the filter function
 function Table.Filter(tbl, func, ...)
 	assert(not next(private.filterTemp))

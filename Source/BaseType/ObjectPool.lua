@@ -5,6 +5,7 @@
 -- ------------------------------------------------------------------------------ --
 
 local LibTSMUtil = select(2, ...).LibTSMUtil
+---@generic OBJ
 local ObjectPool = LibTSMUtil:DefineClassType("ObjectPool")
 local DebugStack = LibTSMUtil:Include("Lua.DebugStack")
 local private = {
@@ -25,10 +26,11 @@ local DEBUG_STATS_MIN_COUNT = 1
 -- ============================================================================
 
 ---Create a new object pool.
+---@generic OBJ
 ---@param name string The name of the object pool for debug purposes
----@param createFunc function|Class The function which is called to create a new object
+---@param createFunc (fun(): OBJ)|OBJ The function which is called to create a new object, or a Class
 ---@param extraStackOffset? number The extra stack offset for tracking where objects are being used from or nil to disable stack info
----@return ObjectPool
+---@return ObjectPool<OBJ>
 function ObjectPool.__static.New(name, createFunc, extraStackOffset)
 	assert(createFunc)
 	assert(not private.instances[name])
@@ -73,8 +75,9 @@ end
 -- ============================================================================
 
 --- Either returns a recycled instance of the object or creates a new one as applicable.
----@generic T
----@return T
+---@generic OBJ
+---@param self ObjectPool<OBJ>
+---@return OBJ
 function ObjectPool:Get()
 	local obj = tremove(self._freeList)
 	if not obj then
@@ -91,8 +94,9 @@ function ObjectPool:Get()
 end
 
 --- Recycles an instance of the object back into the pool.
----@generic T
----@param obj T The object to recycle
+---@generic OBJ
+---@param self ObjectPool<OBJ>
+---@param obj OBJ The object to recycle
 function ObjectPool:Recycle(obj)
 	assert(self._state[obj])
 	self._state[obj] = nil

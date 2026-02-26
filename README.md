@@ -75,6 +75,14 @@ The features of LibTSMUtil are split across a few different modules:
 * `UI` contains some UI-related utility classes and modules
 * `FSM` contains a finite state machine implementation
 
+## LuaLS Plugin
+
+A [plugin](LuaLSPlugin/LibTSMUtilLuaLSPlugin.lua) for
+[LuaLS](https://github.com/LuaLS/lua-language-server) is provided to allow for better language
+server support. The plugin automatically injects `---@type` annotations for `SmartMap.New()` and
+`ObjectPool.New()` calls based on their constructor arguments. It exposes a `.ProcessContext(context)`
+function which can be called in the `OnSetText(uri, text)` function in your own plugin.
+
 ## License and Contributions
 
 LibTSMUtil is licensed under the MIT license. See LICENSE.txt for more information. If you would
