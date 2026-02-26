@@ -61,7 +61,7 @@ function StringBuilder:SetParam(name, value)
 	return self
 end
 
----Gets the number of occurences of a parameter in the template.
+---Gets the number of occurrences of a parameter in the template.
 ---@param name string The parameter name
 ---@return number
 function StringBuilder:GetParamCount(name)

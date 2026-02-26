@@ -87,7 +87,7 @@ function Table.FilterValueNotInTable(tbl, checkTbl)
 	end
 end
 
----Removes all occurences of the value in the table and returns the number removed.
+---Removes all occurrences of the value in the table and returns the number removed.
 ---
 ---Only the numerically-indexed entries are checked.
 ---@param tbl table The table to remove the value from
