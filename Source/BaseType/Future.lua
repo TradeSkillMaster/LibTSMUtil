@@ -86,7 +86,7 @@ function Future:Cancel()
 end
 
 ---Marks the future as done with the specified result value.
----@param value any The reuslt value
+---@param value any The result value
 function Future:Done(value)
 	assert(self._state == STATE.STARTED)
 	self._state = STATE.DONE

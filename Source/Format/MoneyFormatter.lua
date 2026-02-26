@@ -21,7 +21,7 @@ MoneyFormatter.COPPER_HANDLING = EnumType.New("MONEY_COPPER_HANDLING", {
 	REMOVE = EnumType.NewValue(),
 })
 local private = {
-	largeNumberSeperator = ","
+	largeNumberSeparator = ","
 }
 ---@class MoneyFormatTokens
 ---@field gold string
@@ -65,16 +65,16 @@ function MoneyFormatter.__static.New()
 	return MoneyFormatter()
 end
 
----Sets the large number seperator.
+---Sets the large number separator.
 ---@param value string The string value
-function MoneyFormatter.__static.SetLargeNumberSeperator(value)
-	private.largeNumberSeperator = value
+function MoneyFormatter.__static.SetLargeNumberSeparator(value)
+	private.largeNumberSeparator = value
 end
 
----Gets the large number seperator.
+---Gets the large number separator.
 ---@return string
-function MoneyFormatter.__static.GetLargeNumberSeperator()
-	return private.largeNumberSeperator
+function MoneyFormatter.__static.GetLargeNumberSeparator()
+	return private.largeNumberSeparator
 end
 
 ---Returns the colored copper indicator text.
@@ -105,7 +105,7 @@ function MoneyFormatter.__static.FromString(value)
 	value = gsub(gsub(strtrim(value), "|c[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]", ""), "|r", "")
 
 	-- Remove any separators
-	value = gsub(value, String.Escape(private.largeNumberSeperator), "")
+	value = gsub(value, String.Escape(private.largeNumberSeparator), "")
 
 	-- Extract gold/silver/copper values
 	local gold = tonumber(strmatch(value, "([0-9]+)g"))
@@ -247,7 +247,7 @@ function MoneyFormatter.__private:_FormatNumber(num)
 		num = tostring(num)
 		local result = ""
 		for i = 4, #num, 3 do
-			result = private.largeNumberSeperator..strsub(num, -(i - 1), -(i - 3))..result
+			result = private.largeNumberSeparator..strsub(num, -(i - 1), -(i - 3))..result
 		end
 		result = strsub(num, 1, (#num % 3 == 0) and 3 or (#num % 3))..result
 		num = result
