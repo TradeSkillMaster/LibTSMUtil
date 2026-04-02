@@ -183,8 +183,8 @@ end
 -- Iterator __call Metamethod
 -- ============================================================================
 
----@param self IteratorObject
 function ITERATOR_MT:__call()
+	---@cast self IteratorObject
 	local context = private.context[self]
 	return private.IterateHelper(self, context, context.func(context.obj, context.key, unpack(context.extraArgs)))
 end

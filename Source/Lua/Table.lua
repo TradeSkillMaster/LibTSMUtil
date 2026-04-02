@@ -505,9 +505,9 @@ end
 ---Inserts values from an iterator into the table.
 ---@generic T
 ---@param tbl T[] The table to insert into
----@param iterFunc IteratorObject|fun(): number, T The iterator function
----@param iterObj any The iterator object
----@param iterIndex any The iterator index
+---@param iterFunc IteratorObject|(fun(): number, T) The iterator function
+---@param iterObj? any The iterator object
+---@param iterIndex? any The iterator index
 function Table.InsertFromIterator(tbl, iterFunc, iterObj, iterIndex)
 	local insertIndex = #tbl + 1
 	for _, v in iterFunc, iterObj, iterIndex do

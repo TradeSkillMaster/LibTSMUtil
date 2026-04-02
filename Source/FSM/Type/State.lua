@@ -68,7 +68,7 @@ end
 
 ---Add a transition.
 ---@param toState string The state this transition goes to
----@return FSMState
+---@return self
 function FSMState:AddTransition(toState)
 	assert(not self._transitionValid[toState], "transition already exists")
 	self._transitionValid[toState] = true
@@ -78,7 +78,7 @@ end
 ---Add a handled event.
 ---@param event string The name of the event
 ---@param handler function The function called when the event occurs
----@return FSMState
+---@return self
 function FSMState:AddEvent(event, handler)
 	assert(not self._events[event], "event already exists")
 	self._events[event] = handler

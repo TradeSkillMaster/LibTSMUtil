@@ -12,7 +12,7 @@ local private = {
 }
 local MAX_STRING_LENGTH = 100000
 
----@alias EncodedLongString string[]|{compressed: true}
+---@alias EncodedLongString string[]&{compressed: true}
 
 
 

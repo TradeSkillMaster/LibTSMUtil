@@ -152,7 +152,7 @@ end
 
 ---Sets the format.
 ---@param format EnumValue The format to use
----@return MoneyFormatter
+---@return self
 function MoneyFormatter:SetFormat(format)
 	assert(MoneyFormatter.FORMAT:HasValue(format))
 	self._tokens = TOKENS[format]
@@ -162,7 +162,7 @@ end
 
 ---Changes how copper is handled.
 ---@param handling EnumValue How to handle copper
----@return MoneyFormatter
+---@return self
 function MoneyFormatter:SetCopperHandling(handling)
 	assert(MoneyFormatter.COPPER_HANDLING:HasValue(handling))
 	self._copperHandling = handling
@@ -171,7 +171,7 @@ end
 
 ---Sets a color prefix to use for the text components.
 ---@param colorPrefix? string The color prefix string or nil to remove coloring
----@return MoneyFormatter
+---@return self
 function MoneyFormatter:SetColor(colorPrefix)
 	assert(colorPrefix == nil or (type(colorPrefix) == "string" and #colorPrefix == 10))
 	self._color = colorPrefix
@@ -180,7 +180,7 @@ end
 
 ---Sets whether or not trailing 0 values should be trimmed.
 ---@param enabled boolean Whether or not trimming should be enabled
----@return MoneyFormatter
+---@return self
 function MoneyFormatter:SetTrimEnabled(enabled)
 	assert(type(enabled) == "boolean")
 	self._trim = enabled

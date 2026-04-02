@@ -14,7 +14,9 @@ local private = {
 local TEMP_VALUE = newproxy(false) ---@type EnumValue
 
 ---@class EnumObject
+---@field [string] EnumValue
 ---@field HasValue fun(self: EnumObject, value: EnumValue|any): boolean
+
 ---@class EnumValue
 ---@field GetType fun(self: EnumValue): EnumObject
 
@@ -92,10 +94,11 @@ NESTED_VALUE_MT.__eq = EQ_METHOD
 -- ============================================================================
 
 ---Creates an enum object.
----@generic T
----@param name string
+---@generic T: EnumObject
+---@defclass T: EnumObject
+---@param name `T`
 ---@param values T
----@return T|EnumObject
+---@return T
 function EnumType.New(name, values)
 	private.CreateType(name, values, false)
 	for key in pairs(values) do
@@ -105,10 +108,11 @@ function EnumType.New(name, values)
 end
 
 ---Creates an enum object which allows for nested values (performance will be worse).
----@generic T
----@param name string
+---@generic T: EnumObject
+---@defclass T: EnumObject
+---@param name `T`
 ---@param values T
----@return T|EnumObject
+---@return T
 function EnumType.NewNested(name, values)
 	private.CreateType(name, values, true)
 	for key in pairs(values) do

@@ -42,7 +42,7 @@ end
 
 ---Sets the template.
 ---@param template string The template string to format
----@return StringBuilder
+---@return self
 function StringBuilder:SetTemplate(template)
 	assert(type(template) == "string")
 	assert(not self._template and not next(self._params))
@@ -53,7 +53,7 @@ end
 ---Sets the value of a named parameter.
 ---@param name string The parameter name
 ---@param value any The parameter value
----@return StringBuilder
+---@return self
 function StringBuilder:SetParam(name, value)
 	assert(self._template)
 	assert(type(name) == "string" and value ~= nil and not self._params[name])

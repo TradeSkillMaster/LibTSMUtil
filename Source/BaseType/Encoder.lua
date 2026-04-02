@@ -63,7 +63,7 @@ end
 
 ---Sets the encoding type to use.
 ---@param encodingType EncoderEncodingType
----@return Encoder
+---@return self
 function Encoder:SetEncodingType(encodingType)
 	assert(not self._encodingType)
 	assert(encodingType == "PRINT" or encodingType == "ADDON" or encodingType == "BASE64")
@@ -73,7 +73,7 @@ end
 
 ---Sets the serialization type to use.
 ---@param serializationType EncoderSerializationType
----@return Encoder
+---@return self
 function Encoder:SetSerializationType(serializationType)
 	assert(not self._serializationType)
 	assert(serializationType == "FAST" or serializationType == "STABLE" or serializationType == "CBOR" or serializationType == "NONE")
@@ -84,7 +84,7 @@ end
 
 ---Sets a serialization filter function.
 ---@param func fun(tbl: table, k: any, v: any): boolean The filter function
----@return Encoder
+---@return self
 function Encoder:SetSerializationFilter(func)
 	assert(func and not self._serializeFilterFunc)
 	assert(self._serializationType == "FAST" or self._serializationType == "STABLE")

@@ -112,7 +112,7 @@ end
 
 ---Gets a tinted version of the color.
 ---@param tintPct number The tint percent
----@return Color
+---@return self
 function Color:GetTint(tintPct)
 	assert(self._hex)
 	assert(type(tintPct) == "number")
@@ -131,7 +131,7 @@ end
 
 ---Gets a version of the color with a different opacity.
 ---@param opacityPct number The opacity percentage
----@return Color
+---@return self
 function Color:GetOpacity(opacityPct)
 	assert(self._hex)
 	assert(private.IsValidValue(opacityPct, 100))

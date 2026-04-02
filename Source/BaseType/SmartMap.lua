@@ -5,7 +5,6 @@
 -- ------------------------------------------------------------------------------ --
 
 local LibTSMUtil = select(2, ...).LibTSMUtil
----@generic K, V
 local SmartMap = LibTSMUtil:DefineClassType("SmartMap")
 local private = {
 	readerContext = {}, ---@type table<SmartMapReader,SmartMapReaderContext>

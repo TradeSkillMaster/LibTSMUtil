@@ -5,7 +5,6 @@
 -- ------------------------------------------------------------------------------ --
 
 local LibTSMUtil = select(2, ...).LibTSMUtil
----@generic T
 local Future = LibTSMUtil:DefineClassType("Future")
 local EnumType = LibTSMUtil:Include("BaseType.EnumType")
 local STATE = EnumType.New("FUTURE_STATE", {
@@ -60,6 +59,8 @@ end
 ---Registers a script handler.
 ---@param script "OnDone"|"OnCleanup" The script to register for
 ---@param handler function The script handler
+---@overload fun(self: Future, script: "OnDone", handler: fun(self: Future))
+---@overload fun(self: Future, script: "OnCleanup", handler: fun())
 function Future:SetScript(script, handler)
 	assert(type(handler) == "function")
 	if script == "OnDone" then
