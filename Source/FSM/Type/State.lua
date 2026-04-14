@@ -48,7 +48,7 @@ end
 ---
 ---This function is called upon entering the state.
 ---@param handler function The handler function to call
----@return FSMState
+---@return self
 function FSMState:SetOnEnter(handler)
 	assert(type(handler) == "function")
 	self._onEnterHandler = handler
@@ -59,7 +59,7 @@ end
 ---
 ---This function is called upon existing the state.
 ---@param handler function The handler function to call
----@return FSMState
+---@return self
 function FSMState:SetOnExit(handler)
 	assert(type(handler) == "function")
 	self._onExitHandler = handler
