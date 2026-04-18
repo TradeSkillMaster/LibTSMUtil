@@ -65,6 +65,7 @@ end
 ---@param name string The parameter name
 ---@return number
 function StringBuilder:GetParamCount(name)
+	assert(self._template)
 	local _, num = gsub(self._template, "%%%("..name.."%)([-0-9%.]*[cdeEfgGiouxXsq])", "")
 	return num
 end
