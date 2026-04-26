@@ -13,6 +13,8 @@ local private = {
 }
 local DEBUG_STATS_MIN_COUNT = 1
 
+---@class ObjectPool<T>
+
 ---@class ObjectPoolDebugInfo
 ---@field numCreated number The total number of objects created
 ---@field numInUse number The number of objects currently in use
@@ -74,8 +76,6 @@ end
 -- ============================================================================
 
 --- Either returns a recycled instance of the object or creates a new one as applicable.
----@generic T
----@param self ObjectPool<T>
 ---@return T
 function ObjectPool:Get()
 	local obj = tremove(self._freeList)
@@ -93,8 +93,6 @@ function ObjectPool:Get()
 end
 
 --- Recycles an instance of the object back into the pool.
----@generic T
----@param self ObjectPool<T>
 ---@param obj T The object to recycle
 function ObjectPool:Recycle(obj)
 	assert(self._state[obj])

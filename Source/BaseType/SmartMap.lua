@@ -19,6 +19,8 @@ local VALID_VALUE_TYPES = { ---@type table<SmartMapValueType,true>
 	boolean = true,
 }
 
+---@class SmartMap<K:SmartMapKeyType,V:SmartMapValueType>
+
 ---@class SmartMapReaderContext
 ---@field map SmartMap
 ---@field callback? fun(reader: SmartMapReader, pendingChanges: table)
@@ -50,10 +52,10 @@ local VALID_VALUE_TYPES = { ---@type table<SmartMapValueType,true>
 
 ---Create a new smart map object.
 ---@generic K, V
----@param keyType SmartMapKeyType The type of the keys
----@param valueType SmartMapValueType The type of the values
+---@param keyType `K` The type of the keys
+---@param valueType `V` The type of the values
 ---@param lookupFunc fun(key: K): V A function which looks up the value for a specific key
----@return SmartMap<K, V>
+---@return SmartMap<K,V>
 function SmartMap.__static.New(keyType, valueType, lookupFunc)
 	assert(VALID_KEY_TYPES[keyType] and VALID_VALUE_TYPES[valueType])
 	return SmartMap(keyType, valueType, lookupFunc)
@@ -96,6 +98,9 @@ local READER_MT = {
 -- SmartMap Meta Class Methods
 -- ============================================================================
 
+---@param keyType `K`
+---@param valueType `V`
+---@param lookupFunc fun(key: K): V A function which looks up the value for a specific key
 function SmartMap.__private:__init(keyType, valueType, lookupFunc)
 	self._keyType = keyType
 	self._valueType = valueType
@@ -113,8 +118,6 @@ end
 -- ============================================================================
 
 ---Called when the value has changed for a given key to fetch the new one and notify the readers.
----@generic K, V
----@param self SmartMap<K, V>
 ---@param key K The key which changed
 function SmartMap:ValueChanged(key)
 	local oldValue = self._data[key]
@@ -182,10 +185,8 @@ function SmartMap:SetCallbacksPaused(paused)
 end
 
 ---Creates a new reader.
----@generic K, V
----@param self SmartMap<K, V>
----@param callback? fun(reader: SmartMapReader<K, V>, pendingChanges: table) The function to call when a value within the map changes
----@return SmartMapReader<K, V>
+---@param callback? fun(reader: SmartMapReader<K,V>, pendingChanges: table) The function to call when a value within the map changes
+---@return SmartMapReader<K,V>
 function SmartMap:CreateReader(callback)
 	assert(callback == nil or type(callback) == "function")
 	local reader = setmetatable({}, READER_MT)
@@ -200,19 +201,19 @@ function SmartMap:CreateReader(callback)
 end
 
 ---Gets the type of the smart map's keys.
----@return SmartMapKeyType
+---@return `K`
 function SmartMap:GetKeyType()
 	return self._keyType
 end
 
 ---Gets the type of the smart map's values.
----@return SmartMapValueType
+---@return `V`
 function SmartMap:GetValueType()
 	return self._valueType
 end
 
 ---Iterates over all data in the smart map.
----@return fun(): SmartMapKey, SmartMapValue @Iterator with fields: `key`, `value`
+---@return fun(): K, V @Iterator with fields: `key`, `value`
 ---@return table
 function SmartMap:Iterator()
 	return pairs(self._data)

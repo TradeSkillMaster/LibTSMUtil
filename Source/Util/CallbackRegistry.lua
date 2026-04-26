@@ -9,6 +9,8 @@ local CallbackRegistry = LibTSMUtil:DefineClassType("CallbackRegistry")
 local Table = LibTSMUtil:Include("Lua.Table")
 local ExecutionTime = LibTSMUtil:Include("Util.ExecutionTime")
 
+---@class CallbackRegistry<F>
+
 
 
 -- ============================================================================
@@ -48,7 +50,7 @@ end
 -- ============================================================================
 
 ---Adds a callback into the registry.
----@param func function The callback function
+---@param func F
 ---@param key? string The key (required if and only if the registry was created via `NewWithKeys()`)
 function CallbackRegistry:Add(func, key)
 	assert(type(func) == "function")
@@ -64,7 +66,7 @@ function CallbackRegistry:Add(func, key)
 end
 
 ---Removes a callback from the registry.
----@param funcOrKey function|string The callback function for registries created via `NewList()` or the key if created via `NewWithkeys()`
+---@param funcOrKey F|string The callback function for registries created via `NewList()` or the key if created via `NewWithkeys()`
 function CallbackRegistry:Remove(funcOrKey)
 	if self._hasKeys then
 		assert(self._funcs[funcOrKey])
@@ -76,7 +78,7 @@ function CallbackRegistry:Remove(funcOrKey)
 end
 
 ---Checks if a callback is already within the registry.
----@param funcOrKey function|string The callback function for registries created via `NewList()` or the key if created via `NewWithkeys()`
+---@param funcOrKey F|string The callback function for registries created via `NewList()` or the key if created via `NewWithkeys()`
 function CallbackRegistry:HasCallback(funcOrKey)
 	if self._hasKeys then
 		return self._funcs[funcOrKey] and true or false
@@ -98,10 +100,10 @@ end
 
 ---Calls a specific registered callback by its key and passes through its returns.
 ---
----**NOTE:** This registry must have been created via `NewWithKeys()` and without an execution time label
+---**NOTE:** This registry must have been created via `NewWithKeys()` and without an execution time label.
 ---@param key string The key
----@param ... any Arguments to pass to the callbacks
----@return ...
+---@param ... params<F> Arguments to pass to the callback
+---@return returns<F>
 function CallbackRegistry:Call(key, ...)
 	assert(self._hasKeys and not self._executionTimeLabel)
 	local func = self._funcs[key]
@@ -110,7 +112,7 @@ function CallbackRegistry:Call(key, ...)
 end
 
 ---Calls all registered callbacks.
----@param ... any Arguments to pass to the callbacks
+---@param ... params<F> Arguments to pass to the callbacks
 function CallbackRegistry:CallAll(...)
 	if self._hasKeys then
 		for key, func in pairs(self._funcs) do

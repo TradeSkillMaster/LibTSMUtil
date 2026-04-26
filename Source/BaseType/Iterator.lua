@@ -23,7 +23,7 @@ local private = {
 ---@field filterFuncs IteratorFilterFunc[]
 ---@field mapFunc IteratorMapFunc?
 ---@field cleanupFunc IteratorCleanupFunc?
----@field func IteratorFunc?
+---@field func IteratorFunc!
 ---@field obj any?
 ---@field key any?
 ---@field extraArgs any[]
@@ -35,8 +35,8 @@ local private = {
 -- Iterator Metatable
 -- ============================================================================
 
----@class IteratorObject
----@overload fun(): ...
+---@class IteratorObject<F>
+---@overload fun(): returns<F>
 local ITERATOR_METHODS = {}
 
 local ITERATOR_MT = {
@@ -73,12 +73,12 @@ end)
 -- ============================================================================
 
 ---Acquires an Iterator object which wraps the passed iterator function.
----@generic T, K
----@param func fun(obj?: T, key: K, ...: any): ... The iterator function
----@param obj? T The object being iterated over
----@param key? K The initial key for the iterator function
+---@generic F
+---@param func F The iterator function
+---@param obj? any The object being iterated over
+---@param key? any The initial key for the iterator function
 ---@param ... any Additional arguments to pass to the iterator function
----@return IteratorObject
+---@return IteratorObject<F>
 function Iterator.Acquire(func, obj, key, ...)
 	assert(type(func) == "function")
 	local iter = private.objectPool:Get()
@@ -92,7 +92,7 @@ function Iterator.Acquire(func, obj, key, ...)
 end
 
 ---Acquires an Iterator object which does not produce any values.
----@return IteratorObject|fun()
+---@return IteratorObject<fun()>
 function Iterator.AcquireEmpty()
 	return Iterator.Acquire(private.EmptyIterator)
 end
@@ -105,7 +105,7 @@ end
 
 ---Adds a function to filter iterator values (happens before mapping).
 ---@param func IteratorFilterFunc Function which returns if a value should be provided by the iterator
----@return IteratorObject
+---@return self
 function ITERATOR_METHODS:Filter(func)
 	local context = private.context[self]
 	assert(type(func) == "function")
@@ -115,7 +115,7 @@ end
 
 ---Sets a function to map iterator values (happens after filtering).
 ---@param func IteratorMapFunc Function used to map iterator values (the key cannot be mapped and shouldn't be returned)
----@return IteratorObject
+---@return self
 function ITERATOR_METHODS:SetMapFunc(func)
 	local context = private.context[self]
 	assert(type(func) == "function" and not context.mapFunc)
@@ -125,7 +125,7 @@ end
 
 ---Sets a function called when the iterator is released to clean up any associated context.
 ---@param func fun(obj: any) The cleanup function which is passed the original iterator object
----@return IteratorObject
+---@return self
 function ITERATOR_METHODS:SetCleanupFunc(func)
 	local context = private.context[self]
 	assert(type(func) == "function" and not context.cleanupFunc)
