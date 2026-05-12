@@ -42,7 +42,7 @@ local CHAT_LOG_COLOR_PREFIX = {
 -- ============================================================================
 
 ---Registers a function for getting the name of the current thread to include in log messages.
----@param func fun(): string A function which returns the name of the currently-running thread
+---@param func fun(): string? A function which returns the name of the currently-running thread
 function Log.SetCurrentThreadNameFunction(func)
 	private.currentThreadNameFunc = func
 end

@@ -152,7 +152,7 @@ end
 
 ---Gets all the children of a node.
 ---@param node number The node
----@return number ... The children
+---@return ...number
 function Tree:GetChildren(node)
 	assert(not next(private.childrenTemp))
 	local child = self._firstChild[node]
