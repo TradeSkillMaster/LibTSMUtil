@@ -9,7 +9,7 @@ local OrderedTable = LibTSMUtil:Init("BaseType.OrderedTable")
 local Table = LibTSMUtil:Include("Lua.Table")
 local private = {}
 
----@class OrderedTable.Table<K,V>: { [integer]: V, [K]: V }
+---@alias OrderedTable.Table<K,V>: V[]&{[K]: V}
 
 
 

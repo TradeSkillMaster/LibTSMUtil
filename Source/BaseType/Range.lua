@@ -74,7 +74,7 @@ end
 ---Sets the start value and end value of the range.
 ---@param startValue number The start value of the range
 ---@param endValue number The end value of the range
----@return Range
+---@return self
 function Range:SetStartEnd(startValue, endValue)
 	assert(not self._startValue or not self._static)
 	assert(floor(startValue) == startValue and floor(endValue) == endValue and startValue <= endValue)
@@ -86,7 +86,7 @@ end
 ---Sets the start value and length of the range.
 ---@param startValue number The start value of the range
 ---@param length number The length of the range
----@return Range
+---@return self
 function Range:SetStartLength(startValue, length)
 	assert(length > 0)
 	-- Make sure the start is not Inf/NaN
@@ -99,7 +99,7 @@ end
 ---@return number startValue
 ---@return number endValue
 function Range:GetValues()
-	assert(self._startValue)
+	assert(self._startValue and self._endValue)
 	return self._startValue, self._endValue
 end
 
@@ -113,7 +113,7 @@ end
 ---Gets the end value of the range.
 ---@return number
 function Range:GetEnd()
-	assert(self._startValue)
+	assert(self._endValue)
 	return self._endValue
 end
 

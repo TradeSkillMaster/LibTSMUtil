@@ -1,0 +1,13 @@
+{
+  "name": "libtsmutil-docs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "docs:generate": "wowlua_ls doc .. --out-dir api --class BaseType.ContextManager --class ContextManagerObject --class Encoder --class BaseType.EnumType --class EnumObject --class Future --class BaseType.Iterator --class IteratorObject --class BaseType.LongString --class NamedTupleList --class ObjectPool --class BaseType.OrderedTable --class Range --class Signal --class SmartMap --class BaseType.TempTable --class Tree --class Format.CSV --class Format.JSON --class MoneyFormatter --class StringBuilder --class Lua.DebugStack --class Lua.Math --class Lua.Memory --class Lua.String --class Lua.Table --class Lua.Vararg --class Color --class UI.HSLuv --class UI.Money --class Util.BinarySearch --class CallbackRegistry --class Util.ExecutionTime --class Util.Hash --class Util.Log --class FSM --class FSMObject --class FSMState",
+    "docs:dev": "npm run docs:generate && vitepress dev .",
+    "docs:build": "npm run docs:generate && vitepress build ."
+  },
+  "devDependencies": {
+    "vitepress": "^1.0.0"
+  }
+}

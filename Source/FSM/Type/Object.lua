@@ -37,6 +37,7 @@ function FSMObject.__private:__init(name)
 	self._stateObjs = {} ---@type table<string,FSMState>
 	self._defaultEvents = {}
 	self._handlingEvent = nil
+	self._inTransition = false
 end
 
 
@@ -47,7 +48,7 @@ end
 
 ---Add an FSM state.
 ---@param stateObj FSMState The FSM state object to add
----@return FSMObject
+---@return self
 function FSMObject:AddState(stateObj)
 	assert(stateObj:__isa(FSMState))
 	local name = stateObj:_GetName() ---@diagnostic disable-line: invisible
@@ -59,7 +60,7 @@ end
 ---Initialize the FSM.
 ---@param initialState string The name of the initial state
 ---@param context? table The FSM context table which gets passed to all state and event handlers
----@return FSMObject
+---@return self
 function FSMObject:Init(initialState, context)
 	assert(self._stateObjs[initialState], "invalid initial state")
 	self._currentState = initialState
@@ -76,7 +77,7 @@ end
 ---Process an event.
 ---@param event string The name of the event
 ---@param ... any Additional arguments to pass to the handler function
----@return FSMObject
+---@return self
 function FSMObject:ProcessEvent(event, ...)
 	assert(self._currentState, "FSM not initialized")
 	if self._handlingEvent then
@@ -109,7 +110,7 @@ end
 
 ---Enable or disable event and state transition logs (can be called recursively).
 ---@param enabled boolean Whether or not logging should be enabled
----@return FSMObject
+---@return self
 function FSMObject:SetLoggingEnabled(enabled)
 	self._loggingDisabledCount = self._loggingDisabledCount + (enabled and -1 or 1)
 	assert(self._loggingDisabledCount >= 0)

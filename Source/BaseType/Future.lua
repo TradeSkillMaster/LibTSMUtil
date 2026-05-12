@@ -5,7 +5,6 @@
 -- ------------------------------------------------------------------------------ --
 
 local LibTSMUtil = select(2, ...).LibTSMUtil
----@generic T
 local Future = LibTSMUtil:DefineClassType("Future")
 local EnumType = LibTSMUtil:Include("BaseType.EnumType")
 local STATE = EnumType.New("FUTURE_STATE", {
@@ -13,6 +12,8 @@ local STATE = EnumType.New("FUTURE_STATE", {
 	STARTED = EnumType.NewValue(),
 	DONE = EnumType.NewValue(),
 })
+
+---@class Future<T>
 
 
 
@@ -36,7 +37,7 @@ end
 function Future.__private:__init(name)
 	self._name = name
 	self._state = STATE.RESET
-	self._value = nil
+	self._value = nil ---@type T!
 	self._onDone = nil
 	self._onCleanup = nil
 end
@@ -60,6 +61,8 @@ end
 ---Registers a script handler.
 ---@param script "OnDone"|"OnCleanup" The script to register for
 ---@param handler function The script handler
+---@overload fun(self: Future, script: "OnDone", handler: fun(self: Future))
+---@overload fun(self: Future, script: "OnCleanup", handler: fun())
 function Future:SetScript(script, handler)
 	assert(type(handler) == "function")
 	if script == "OnDone" then
@@ -87,8 +90,6 @@ function Future:Cancel()
 end
 
 ---Marks the future as done with the specified result value.
----@generic T
----@param self Future<T>
 ---@param value T The result value
 function Future:Done(value)
 	assert(self._state == STATE.STARTED)
@@ -107,8 +108,6 @@ function Future:IsDone()
 end
 
 ---Gets the result value from a future in the done state.
----@generic T
----@param self Future<T>
 ---@return T
 function Future:GetValue()
 	assert(self._state == STATE.DONE)

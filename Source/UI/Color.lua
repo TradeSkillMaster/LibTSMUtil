@@ -112,7 +112,7 @@ end
 
 ---Gets a tinted version of the color.
 ---@param tintPct number The tint percent
----@return Color
+---@return self
 function Color:GetTint(tintPct)
 	assert(self._hex)
 	assert(type(tintPct) == "number")
@@ -131,7 +131,7 @@ end
 
 ---Gets a version of the color with a different opacity.
 ---@param opacityPct number The opacity percentage
----@return Color
+---@return self
 function Color:GetOpacity(opacityPct)
 	assert(self._hex)
 	assert(private.IsValidValue(opacityPct, 100))
@@ -214,7 +214,13 @@ end
 
 function private.HexToRGBA(hex)
 	local a, r, g, b = strmatch(strlower(hex), "^#([0-9a-f]?[0-9a-f]?)([0-9a-f][0-9a-f])([0-9a-f][0-9a-f])([0-9a-f][0-9a-f])$")
-	return tonumber(r, 16), tonumber(g, 16), tonumber(b, 16), tonumber(a ~= "" and a or "ff", 16)
+	assert(a and r and g and b)
+	a = tonumber(a ~= "" and a or "ff", 16)
+	r = tonumber(r, 16)
+	g = tonumber(g, 16)
+	b = tonumber(b, 16)
+	assert(a and r and g and b)
+	return r, g, b, a
 end
 
 function private.RGBToHex(r, g, b)

@@ -48,7 +48,7 @@ end
 ---
 ---This function is called upon entering the state.
 ---@param handler function The handler function to call
----@return FSMState
+---@return self
 function FSMState:SetOnEnter(handler)
 	assert(type(handler) == "function")
 	self._onEnterHandler = handler
@@ -59,7 +59,7 @@ end
 ---
 ---This function is called upon existing the state.
 ---@param handler function The handler function to call
----@return FSMState
+---@return self
 function FSMState:SetOnExit(handler)
 	assert(type(handler) == "function")
 	self._onExitHandler = handler
@@ -68,7 +68,7 @@ end
 
 ---Add a transition.
 ---@param toState string The state this transition goes to
----@return FSMState
+---@return self
 function FSMState:AddTransition(toState)
 	assert(not self._transitionValid[toState], "transition already exists")
 	self._transitionValid[toState] = true
@@ -78,7 +78,7 @@ end
 ---Add a handled event.
 ---@param event string The name of the event
 ---@param handler function The function called when the event occurs
----@return FSMState
+---@return self
 function FSMState:AddEvent(event, handler)
 	assert(not self._events[event], "event already exists")
 	self._events[event] = handler
