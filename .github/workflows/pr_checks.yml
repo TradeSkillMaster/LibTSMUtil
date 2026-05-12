@@ -10,20 +10,18 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-        with:
-          path: LibTSMUtil/
-
-      - name: Checkout LibTSMCore
-        uses: actions/checkout@v4
-        with:
-          repository: TradeSkillMaster/LibTSMCore
-          path: LibTSMCore/
 
       - name: Checkout LibTSMClass
         uses: actions/checkout@v4
         with:
           repository: TradeSkillMaster/LibTSMClass
           path: LibTSMClass/
+
+      - name: Checkout LibTSMCore
+        uses: actions/checkout@v4
+        with:
+          repository: TradeSkillMaster/LibTSMCore
+          path: LibTSMCore/
 
       - name: Install Lua 5.1.5
         uses: leafo/gh-actions-lua@v10
@@ -41,10 +39,12 @@ jobs:
       - name: Run wowlua-ls Check
         run: |
           chmod +x ./wowlua_ls-x86_64-unknown-linux-gnu
-          ./wowlua_ls-x86_64-unknown-linux-gnu check LibTSMUtil/
+          ./wowlua_ls-x86_64-unknown-linux-gnu check .
 
       - name: Unit Tests
-        run: lua LibTSMUtil/Tests/Core.lua -o junit -n test-results.xml
+        run: |
+          ln -s . LibTSMUtil
+          lua Tests/Core.lua -o junit -n test-results.xml
 
       - name: Test Report
         uses: dorny/test-reporter@v3

@@ -1,4 +1,4 @@
-name: Documentation
+name: documentation
 
 on:
   pull_request:
@@ -7,50 +7,62 @@ on:
       - main
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   docs:
-    name: Build Documentation
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v5
-        with:
-          path: LibTSMUtil/
+      - uses: actions/checkout@v4
 
       - name: Checkout LibTSMClass
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
         with:
           repository: TradeSkillMaster/LibTSMClass
           path: LibTSMClass/
 
       - name: Checkout LibTSMCore
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
         with:
           repository: TradeSkillMaster/LibTSMCore
           path: LibTSMCore/
 
-      - name: Python Setup
-        uses: actions/setup-python@v6
+      - name: Download wowlua-ls
+        uses: robinraju/release-downloader@v1
         with:
-          python-version: '3.12'
+          repository: 'TradeSkillMaster/wowlua-ls'
+          latest: true
+          fileName: 'wowlua_ls-x86_64-unknown-linux-gnu'
+          out-file-path: './'
 
-      - name: Install Dependencies
+      - name: Install wowlua_ls
         run: |
-          pip install sphinx sphinx-lua-ls sphinx-rtd-theme myst-parser
+          chmod +x wowlua_ls-x86_64-unknown-linux-gnu
+          mv wowlua_ls-x86_64-unknown-linux-gnu wowlua_ls
+          echo "$GITHUB_WORKSPACE" >> $GITHUB_PATH
 
-      - name: Sphinx Build
-        working-directory: LibTSMUtil/
-        run: |
-          sphinx-build Docs Docs/_build
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install npm dependencies
+        run: npm install
+        working-directory: Docs
+
+      - name: Build docs
+        run: npm run docs:build
+        working-directory: Docs
+
+      - name: Upload artifact
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: Docs/.vitepress/dist/
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-        with:
-          publish_branch: gh-pages
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: LibTSMUtil/Docs/_build/
-          force_orphan: true
+        id: deployment
+        uses: actions/deploy-pages@v4

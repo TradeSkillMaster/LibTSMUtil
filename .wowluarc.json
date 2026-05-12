@@ -5,10 +5,8 @@
         ]
     },
     "ignore": [
-        ".vscode/",
         "Docs/",
         "EmbeddedLibs/",
-        "LuaLSPlugin/",
         "Tests/"
     ]
 }
