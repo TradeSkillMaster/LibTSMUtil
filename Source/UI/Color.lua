@@ -214,7 +214,13 @@ end
 
 function private.HexToRGBA(hex)
 	local a, r, g, b = strmatch(strlower(hex), "^#([0-9a-f]?[0-9a-f]?)([0-9a-f][0-9a-f])([0-9a-f][0-9a-f])([0-9a-f][0-9a-f])$")
-	return tonumber(r, 16), tonumber(g, 16), tonumber(b, 16), tonumber(a ~= "" and a or "ff", 16)
+	assert(a and r and g and b)
+	a = tonumber(a ~= "" and a or "ff", 16)
+	r = tonumber(r, 16)
+	g = tonumber(g, 16)
+	b = tonumber(b, 16)
+	assert(a and r and g and b)
+	return r, g, b, a
 end
 
 function private.RGBToHex(r, g, b)

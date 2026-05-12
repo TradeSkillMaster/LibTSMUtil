@@ -77,7 +77,7 @@ end
 ---@param value string The value to search for
 ---@return boolean
 function String.SeparatedContains(str, sep, value)
-	return str == value or strmatch(str, "^"..value..sep) or strmatch(str, sep..value..sep) or strmatch(str, sep..value.."$")
+	return str == value or strmatch(str, "^"..value..sep) ~= nil or strmatch(str, sep..value..sep) ~= nil or strmatch(str, sep..value.."$") ~= nil
 end
 
 ---Gets the count of separated string parts.
