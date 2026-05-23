@@ -6,6 +6,7 @@
 
 local LibTSMUtil = select(2, ...).LibTSMUtil
 local String = LibTSMUtil:Init("Lua.String")
+local private = {}
 local MAGIC_CHARACTERS = {
 	["["] = true,
 	["]"] = true,
@@ -116,4 +117,25 @@ function String.FormatToMatchPattern(str)
 	assert(not strmatch(str, "%%"))
 	str = gsub(str, "\001", "%%")
 	return str
+end
+
+---Calls strmatch() and enforces that there's a match.
+---@param str string
+---@param pattern string
+---@param pos? number
+---@return ...string
+function String.StrictMatch(str, pattern, pos)
+	return private.StrictMatchHelper(strmatch(str, pattern, pos))
+end
+
+
+
+-- ============================================================================
+-- Module Functions
+-- ============================================================================
+
+function private.StrictMatchHelper(...)
+	local first = ...
+	assert(first)
+	return ...
 end
