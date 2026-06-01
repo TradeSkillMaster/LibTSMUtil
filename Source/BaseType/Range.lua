@@ -49,8 +49,8 @@ end
 
 function Range.__private:__init(static)
 	self._static = static or false
-	self._startValue = nil
-	self._endValue = nil
+	self._startValue = nil ---@type number!
+	self._endValue = nil ---@type number!
 end
 
 function Range:__tostring()

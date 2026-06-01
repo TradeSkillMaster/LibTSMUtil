@@ -177,7 +177,7 @@ function Encoder.__private:_Decompress(str)
 		return result
 	else
 		local result, numExtraBytes = LibDeflate:DecompressDeflate(str)
-		if not result or numExtraBytes > 0 then
+		if not result or (numExtraBytes or 0) > 0 then
 			return nil
 		end
 		return result

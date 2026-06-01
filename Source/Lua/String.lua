@@ -128,6 +128,18 @@ function String.StrictMatch(str, pattern, pos)
 	return private.StrictMatchHelper(strmatch(str, pattern, pos))
 end
 
+---Calls strmatch() and converts the result to a number, erroring if it's not a valid number.
+---@param str string
+---@param pattern string
+---@param pos? number
+---@return number
+function String.StrictMatchNumber(str, pattern, pos)
+	local num = strmatch(str, pattern, pos)
+	num = tonumber(num)
+	assert(num)
+	return num
+end
+
 
 
 -- ============================================================================

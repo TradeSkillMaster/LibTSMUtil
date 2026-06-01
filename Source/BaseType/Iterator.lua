@@ -7,6 +7,7 @@
 local LibTSMUtil = select(2, ...).LibTSMUtil
 local Iterator = LibTSMUtil:Init("BaseType.Iterator")
 local TempTable = LibTSMUtil:Include("BaseType.TempTable")
+local String = LibTSMUtil:Include("Lua.String")
 local Vararg = LibTSMUtil:Include("Lua.Vararg")
 local ObjectPool = LibTSMUtil:IncludeClassType("ObjectPool")
 local private = {
@@ -43,7 +44,7 @@ local ITERATOR_MT = {
 	__index = ITERATOR_METHODS,
 	__newindex = function() error("Iterator cannot be written to", 2) end,
 	__tostring = function(self)
-		return "Iterator:"..strmatch(tostring(private.context[self]), "table:[^1-9a-fA-F]*([0-9a-fA-F]+)")
+		return "Iterator:"..String.StrictMatch(tostring(private.context[self]), "table:[^1-9a-fA-F]*([0-9a-fA-F]+)")
 	end,
 	__metatable = false,
 }

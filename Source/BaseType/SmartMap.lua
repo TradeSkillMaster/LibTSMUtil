@@ -87,7 +87,9 @@ local READER_MT = {
 		error("Reader is read-only", 2)
 	end,
 	__tostring = function(self)
-		return "SmartMapReader:"..strmatch(tostring(private.readerContext[self]), "table:[^1-9a-fA-F]*([0-9a-fA-F]+)")
+		local idStr = strmatch(tostring(private.readerContext[self]), "table:[^1-9a-fA-F]*([0-9a-fA-F]+)")
+		assert(idStr)
+		return "SmartMapReader:"..idStr
 	end,
 	__metatable = false,
 }
