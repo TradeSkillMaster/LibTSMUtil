@@ -37,12 +37,6 @@ function Encoder.__static.Create()
 	return Encoder()
 end
 
----Returns whether or not the encoder supports CBOR.
----@return boolean
-function Encoder.__static.SupportsCBOR()
-	return C_EncodingUtil and true or false
-end
-
 
 
 -- ============================================================================
@@ -77,7 +71,6 @@ end
 function Encoder:SetSerializationType(serializationType)
 	assert(not self._serializationType)
 	assert(serializationType == "FAST" or serializationType == "STABLE" or serializationType == "CBOR" or serializationType == "NONE")
-	assert(serializationType ~= "CBOR" or self.SupportsCBOR())
 	self._serializationType = serializationType
 	return self
 end
@@ -234,10 +227,12 @@ function private.EncodeBase64(data)
 	local numEncodedChars = 0
 	for i = 1, ceil(#data / 3) do
 		local b1, b2, b3 = strbyte(data, (i - 1) * 3 + 1, i * 3)
+		---@cast b2 number?
+		---@cast b3 number?
 		local b1Lower = b1 % 4
 		private.base64Temp[numEncodedChars + 1] = BASE64_ENCODE_LOOKUP[(b1 - b1Lower) / 4]
 		if b2 then
-			local b2Lower = b2 and b2 % 16 or nil
+			local b2Lower = b2 % 16
 			private.base64Temp[numEncodedChars + 2] = BASE64_ENCODE_LOOKUP[b1Lower * 16 + (b2 - b2Lower) / 16]
 			if b3 then
 				local b3Part2 = b3 % 64

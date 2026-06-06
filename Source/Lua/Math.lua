@@ -7,7 +7,7 @@
 local LibTSMUtil = select(2, ...).LibTSMUtil
 local Math = LibTSMUtil:Init("Lua.Math")
 local NAN = math.huge * 0
-local IS_NAN_GT_INF = (NAN or 0) > math.huge
+local IS_NAN_GT_INF = NAN > math.huge
 local NAN_STR = tostring(NAN)
 
 
