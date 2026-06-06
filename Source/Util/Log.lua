@@ -28,7 +28,7 @@ local MAX_MSG_LEN = 200
 ---|'"INFO"'
 ---|'"WARN"'
 ---|'"ERR"'
-local CHAT_LOG_COLOR_PREFIX = {
+local CHAT_LOG_COLOR_PREFIX = { ---@type table<LogSeverity,string>
 	TRACE = "|cff2076f7",
 	INFO = "|cff4ff720",
 	WARN = "|cffe1f720",
@@ -116,35 +116,39 @@ function Log.StackTrace(maxLines)
 end
 
 ---Logs a formatted message at the info level.
----@param ... string
-function Log.Info(...)
-	private.Log("INFO", ...)
+---@param message string The message or format string
+---@param ... string|number|boolean The format arguments
+function Log.Info(message, ...)
+	private.Log("INFO", message, ...)
 end
 
 ---Logs a formatted message at the warning level.
----@param ... string
-function Log.Warn(...)
-	private.Log("WARN", ...)
+---@param message string The message or format string
+---@param ... string|number|boolean The format arguments
+function Log.Warn(message, ...)
+	private.Log("WARN", message, ...)
 end
 
 ---Logs a formatted message at the error level.
----@param ... string
-function Log.Err(...)
-	private.Log("ERR", ...)
+---@param message string The message or format string
+---@param ... string|number|boolean The format arguments
+function Log.Err(message, ...)
+	private.Log("ERR", message, ...)
 end
 
 ---Logs a formatted message with custom options.
 ---@param severity LogSeverity
 ---@param location string The location for the log message
----@param ... string
-function Log.Custom(severity, location, ...)
+---@param message string The message or format string
+---@param ... string|number|boolean The format arguments
+function Log.Custom(severity, location, message, ...)
 	private.overrideLocation = location
-	private.Log(severity, ...)
+	private.Log(severity, message, ...)
 	assert(not private.overrideLocation)
 end
 
 ---Prepares format args for logging.
----@param ... any The format arguments
+---@param ... string|number|boolean The format arguments
 ---@return ...
 function Log.PrepareFormatArgs(...)
 	wipe(private.argTemp)
