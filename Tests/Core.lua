@@ -1,5 +1,11 @@
 local Env = require("LibTSMCore.Tests.Env.Core")
 Env.Init("TradeSkillMaster", "RETAIL")
+C_EncodingUtil = {
+	CompressString = function(str) return str end,
+	DecompressString = function(str) return str end,
+	EncodeBase64 = function(str) return str end,
+	DecodeBase64 = function(str) return str end,
+}
 Env.LoadAddonFiles({
 	"LibTSMClass/LibStub/LibStub.lua",
 	"LibTSMClass/LibTSMClass.lua",

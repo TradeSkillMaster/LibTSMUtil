@@ -6,21 +6,15 @@
 
 local LibTSMUtil = select(2, ...).LibTSMUtil
 local Encoder = LibTSMUtil:DefineClassType("Encoder")
-local Table = LibTSMUtil:Include("Lua.Table")
 local LibDeflate = LibStub("LibDeflate")
 local LibSerialize = LibStub("LibSerialize")
 local private = {
-	base64Temp = {},
 	serializationOptions = {
 		errorOnUnserializableType = true,
 		stable = false,
 		filter = nil,
 	},
 }
-local BASE64_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
-local BASE64_PAD = "="
-local BASE64_ENCODE_LOOKUP = {}
-local BASE64_DECODE_BYTES = {}
 
 ---@alias EncoderEncodingType "PRINT"|"ADDON"|"BASE64"
 ---@alias EncoderSerializationType "FAST"|"STABLE"|"CBOR"|"NONE"
@@ -79,7 +73,7 @@ end
 ---@param func fun(tbl: table, k: any, v: any): boolean The filter function
 ---@return self
 function Encoder:SetSerializationFilter(func)
-	assert(func and not self._serializeFilterFunc)
+	assert(not self._serializeFilterFunc)
 	assert(self._serializationType == "FAST" or self._serializationType == "STABLE")
 	self._serializeFilterFunc = func
 	return self
@@ -142,39 +136,22 @@ function Encoder.__private:_Encode(str)
 	elseif self._encodingType == "ADDON" then
 		return LibDeflate:EncodeForWoWAddonChannel(str)
 	elseif self._encodingType == "BASE64" then
-		if C_EncodingUtil and C_EncodingUtil.EncodeBase64 then
-			return C_EncodingUtil.EncodeBase64(str)
-		else
-			return private.EncodeBase64(str)
-		end
+		return C_EncodingUtil.EncodeBase64(str)
 	else
 		error("Invalid encoding type: "..tostring(self._encodingType))
 	end
 end
 
 function Encoder.__private:_Compress(str)
-	if C_EncodingUtil and C_EncodingUtil.CompressString then
-		return C_EncodingUtil.CompressString(str)
-	else
-		local result = LibDeflate:CompressDeflate(str)
-		return result
-	end
+	return C_EncodingUtil.CompressString(str)
 end
 
 function Encoder.__private:_Decompress(str)
-	if C_EncodingUtil and C_EncodingUtil.DecompressString then
-		local success, result = pcall(C_EncodingUtil.DecompressString, str)
-		if not success then
-			return nil
-		end
-		return result
-	else
-		local result, numExtraBytes = LibDeflate:DecompressDeflate(str)
-		if not result or (numExtraBytes or 0) > 0 then
-			return nil
-		end
-		return result
+	local success, result = pcall(C_EncodingUtil.DecompressString, str)
+	if not success then
+		return nil
 	end
+	return result
 end
 
 function Encoder.__private:_Decode(str)
@@ -183,11 +160,7 @@ function Encoder.__private:_Decode(str)
 	elseif self._encodingType == "ADDON" then
 		return LibDeflate:DecodeForWoWAddonChannel(str)
 	elseif self._encodingType == "BASE64" then
-		if C_EncodingUtil and C_EncodingUtil.DecodeBase64 then
-			return C_EncodingUtil.DecodeBase64(str)
-		else
-			return private.DecodeBase64(str)
-		end
+		return C_EncodingUtil.DecodeBase64(str)
 	else
 		error("Invalid encoding type: "..tostring(self._encodingType))
 	end
@@ -209,97 +182,4 @@ function Encoder.__private:_Deserialize(str)
 	else
 		error("Invalid serialization type: "..tostring(self._serializationType))
 	end
-end
-
-
-
--- ============================================================================
--- Private Helper Functions
--- ============================================================================
-
-function private.EncodeBase64(data)
-	if #BASE64_ENCODE_LOOKUP == 0 then
-		for i = 1, #BASE64_ALPHABET do
-			BASE64_ENCODE_LOOKUP[i - 1] = strsub(BASE64_ALPHABET, i, i)
-		end
-	end
-	assert(not next(private.base64Temp))
-	local numEncodedChars = 0
-	for i = 1, ceil(#data / 3) do
-		local b1, b2, b3 = strbyte(data, (i - 1) * 3 + 1, i * 3)
-		---@cast b2 number?
-		---@cast b3 number?
-		local b1Lower = b1 % 4
-		private.base64Temp[numEncodedChars + 1] = BASE64_ENCODE_LOOKUP[(b1 - b1Lower) / 4]
-		if b2 then
-			local b2Lower = b2 % 16
-			private.base64Temp[numEncodedChars + 2] = BASE64_ENCODE_LOOKUP[b1Lower * 16 + (b2 - b2Lower) / 16]
-			if b3 then
-				local b3Part2 = b3 % 64
-				private.base64Temp[numEncodedChars + 3] = BASE64_ENCODE_LOOKUP[b2Lower * 4 + (b3 - b3Part2) / 64]
-				private.base64Temp[numEncodedChars + 4] = BASE64_ENCODE_LOOKUP[b3Part2]
-			else
-				private.base64Temp[numEncodedChars + 3] = BASE64_ENCODE_LOOKUP[b2Lower * 4]
-				private.base64Temp[numEncodedChars + 4] = BASE64_PAD
-			end
-		else
-			private.base64Temp[numEncodedChars + 2] = BASE64_ENCODE_LOOKUP[b1Lower * 16]
-			private.base64Temp[numEncodedChars + 3] = BASE64_PAD
-			private.base64Temp[numEncodedChars + 4] = BASE64_PAD
-		end
-		numEncodedChars = numEncodedChars + 4
-	end
-	local result = table.concat(private.base64Temp)
-	Table.WipeAndDeallocate(private.base64Temp)
-	return result
-end
-
-function private.DecodeBase64(data)
-	if #BASE64_DECODE_BYTES == 0 then
-		for i = 1, #BASE64_ALPHABET do
-			BASE64_DECODE_BYTES[strbyte(strsub(BASE64_ALPHABET, i, i))] = i - 1
-		end
-	end
-	assert(not next(private.base64Temp))
-	local numDecodedChars = 0
-	local padding = strsub(data, -2) == '==' and 2 or strsub(data, -1) == '=' and 1 or 0
-	for i = 1, padding > 0 and #data - 4 or #data, 4 do
-		local b1, b2, b3, b4 = strbyte(data, i, i + 3)
-		b1 = BASE64_DECODE_BYTES[b1]
-		b2 = BASE64_DECODE_BYTES[b2]
-		b3 = BASE64_DECODE_BYTES[b3]
-		b4 = BASE64_DECODE_BYTES[b4]
-		local v3Lower = b4
-		local v3Upper = b3 % 4
-		local v2Lower = (b3 - v3Upper) / 4
-		local v2Upper = b2 % 16
-		local v1Lower = (b2 - v2Upper) / 16
-		local v1Upper = b1
-		private.base64Temp[numDecodedChars + 1] = strchar(v1Upper * 4 + v1Lower)
-		private.base64Temp[numDecodedChars + 2] = strchar(v2Upper * 16 + v2Lower)
-		private.base64Temp[numDecodedChars + 3] = strchar(v3Upper * 64 + v3Lower)
-		numDecodedChars = numDecodedChars + 3
-	end
-	if padding == 1 then
-		local b1, b2, b3 = strbyte(data, #data - 3, #data - 1)
-		b1 = BASE64_DECODE_BYTES[b1]
-		b2 = BASE64_DECODE_BYTES[b2]
-		b3 = BASE64_DECODE_BYTES[b3]
-		local v2Lower = b3 / 4
-		local v2Upper = b2 % 16
-		local v1Lower = (b2 - v2Upper) / 16
-		local v1Upper = b1
-		private.base64Temp[numDecodedChars + 1] = strchar(v1Upper * 4 + v1Lower)
-		private.base64Temp[numDecodedChars + 2] = strchar(v2Upper * 16 + v2Lower)
-	elseif padding == 2 then
-		local b1, b2 = strbyte(data, #data - 3, #data - 2)
-		b1 = BASE64_DECODE_BYTES[b1]
-		b2 = BASE64_DECODE_BYTES[b2]
-		local v1Lower = b2 / 16
-		local v1Upper = b1
-		private.base64Temp[numDecodedChars + 1] = strchar(v1Upper * 4 + v1Lower)
-	end
-	local result = table.concat(private.base64Temp)
-	Table.WipeAndDeallocate(private.base64Temp)
-	return result
 end

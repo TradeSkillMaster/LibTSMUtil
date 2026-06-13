@@ -19,9 +19,6 @@ local NAN_STR = tostring(NAN)
 ---Returns NAN.
 ---@return number
 function Math.GetNan()
-	if not NAN then
-		error("NAN not set")
-	end
 	return NAN
 end
 
@@ -29,9 +26,6 @@ end
 ---@param value number The number to check
 ---@return boolean
 function Math.IsNan(value)
-	if not NAN then
-		error("NAN not set")
-	end
 	if IS_NAN_GT_INF then
 		-- Optimization if NAN > math.huge (which it is in WoW's version of lua)
 		return value > math.huge and tostring(value) == NAN_STR

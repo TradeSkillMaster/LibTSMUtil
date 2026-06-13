@@ -7,7 +7,7 @@
 local LibTSMUtil = select(2, ...).LibTSMUtil
 local Table = LibTSMUtil:Init("Lua.Table")
 local private = {
-	sortValueLookup = nil,
+	sortValueLookup = nil, ---@type table!
 	sortValueReverse = false,
 	sortValueSecondaryFunc = nil,
 	filterTemp = {},
