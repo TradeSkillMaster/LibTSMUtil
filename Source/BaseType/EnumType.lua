@@ -33,6 +33,9 @@ local TYPE_MT = {
 	__index = function(_, key)
 		if key == "HasValue" then
 			return private.TypeHasValue
+		elseif key == "ToDebugString" then
+			-- Wow calls this - defer to __tostring
+			return TYPE_MT.__tostring
 		else
 			error("Unknown enum value: "..tostring(key))
 		end
@@ -52,6 +55,9 @@ local VALUE_MT = {
 			return nil
 		elseif key == "GetType" then
 			return private.ValueGetType
+		elseif key == "ToDebugString" then
+			-- Wow calls this - defer to __tostring
+			return VALUE_MT.__tostring
 		else
 			error("Unknown enum value property: "..tostring(key))
 		end
