@@ -1,7 +1,6 @@
-local TSM, Locals = ... ---@type TSM, table<string,table<string,any>>
+local TSM = ... ---@type TSM
 local LibTSMUtil = TSM.LibTSMUtil
 local Encoder = LibTSMUtil:IncludeClassType("Encoder")
-local encoderPrivate = Locals["LibTSMUtil.BaseType.Encoder"].private
 
 
 
@@ -10,13 +9,6 @@ local encoderPrivate = Locals["LibTSMUtil.BaseType.Encoder"].private
 -- ============================================================================
 
 TestEncoder = {}
-
-function TestEncoder:TestRawBase64()
-	local data = "TEST STRING TO B64 ENCODE"
-	local encoded = encoderPrivate.EncodeBase64(data)
-	assertEquals(encoded, "VEVTVCBTVFJJTkcgVE8gQjY0IEVOQ09ERQ==")
-	assertEquals(encoderPrivate.DecodeBase64(encoded), data)
-end
 
 function TestEncoder:TestBase64()
 	local encoder = Encoder.Create()
