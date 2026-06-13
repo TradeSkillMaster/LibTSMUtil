@@ -26,7 +26,8 @@ local TEMP_VALUE = newproxy(false) ---@type EnumValue
 -- Metatables
 -- ============================================================================
 
-local TYPE_MT = {
+local TYPE_MT = nil
+TYPE_MT = {
 	__newindex = function()
 		error("Enum is read-only")
 	end,
@@ -45,7 +46,8 @@ local TYPE_MT = {
 	end,
 	__metatable = newproxy(false),
 }
-local VALUE_MT = {
+local VALUE_MT = nil
+VALUE_MT = {
 	__newindex = function()
 		error("Enum value is read-only")
 	end,

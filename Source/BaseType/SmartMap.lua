@@ -71,8 +71,13 @@ end
 ---@operator call(K): V
 ---@field [K] V
 
-local READER_MT = {
+local READER_MT = nil
+READER_MT = {
 	__index = function(self, key)
+		if key == "ToDebugString" then
+			-- Wow calls this - defer to __tostring
+			return READER_MT.__tostring
+		end
 		-- check if the map already has the value for this key cached
 		local readerContext = private.readerContext[self]
 		local value = readerContext.map:_Get(key)
