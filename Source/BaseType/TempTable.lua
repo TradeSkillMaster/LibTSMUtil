@@ -22,8 +22,12 @@ local RELEASED_TEMP_TABLE_MT = {
 	__newindex = function()
 		error("Attempt to access temp table after release", 2)
 	end,
-	__index = function()
-		error("Attempt to access temp table after release", 2)
+	__index = function(_, key)
+		if key == "ToDebugString" then
+			-- Wow calls this - defer to tostring
+			return tostring
+		end
+		error(format("Attempt to access temp table after release (%s)", tostring(key)), 2)
 	end,
 }
 
