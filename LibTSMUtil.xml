@@ -42,6 +42,8 @@
     <Script file="Source\FSM\FSM.lua" />
 
     <Script file="Source\UI\HSLuv.lua" />
+    <Script file="Source\UI\OKLCH.lua" />
     <Script file="Source\UI\Color.lua" />
+    <Script file="Source\UI\ColorRamp.lua" />
     <Script file="Source\UI\Money.lua" />
 </Ui>
