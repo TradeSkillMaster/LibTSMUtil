@@ -13,6 +13,7 @@ local private = {
 	filterTemp = {},
 	diffTemp = {},
 }
+local HAS_NATIVE_TABLE_EXTENSIONS = LibTSMUtil.IsRetail() or LibTSMUtil.IsForever()
 local READ_ONLY_TABLE_MT = {
 	__index = function(_, key) error(format("Key (%s) does not exist in read-only table", tostring(key)), 2) end,
 	__newindex = function(_, key) error(format("Writing (%s) to read-only table", tostring(key)), 2) end,
@@ -94,6 +95,9 @@ end
 ---@param value any The value to remove
 ---@return number
 function Table.RemoveByValue(tbl, value)
+	if HAS_NATIVE_TABLE_EXTENSIONS then
+		return table.removevalue(tbl, value)
+	end
 	local numRemoved = 0
 	for i = #tbl, 1, -1 do
 		if tbl[i] == value then
@@ -122,6 +126,9 @@ end
 ---@param tbl table The table to get the number of entries in
 ---@return number
 function Table.Count(tbl)
+	if HAS_NATIVE_TABLE_EXTENSIONS then
+		return (table.getcountinfo(tbl))
+	end
 	local count = 0
 	for _ in pairs(tbl) do
 		count = count + 1
