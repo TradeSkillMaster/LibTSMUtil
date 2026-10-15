@@ -127,7 +127,8 @@ end
 ---@return number
 function Table.Count(tbl)
 	if HAS_NATIVE_TABLE_EXTENSIONS then
-		return (table.getcountinfo(tbl))
+		local count = table.getcountinfo(tbl)
+		return count
 	end
 	local count = 0
 	for _ in pairs(tbl) do
