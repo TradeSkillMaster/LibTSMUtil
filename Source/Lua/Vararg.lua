@@ -17,7 +17,7 @@ local PLACEHOLDER_VALUE = newproxy(false)
 -- Module Functions
 -- ============================================================================
 
----Stores a varag into a table.
+---Stores a vararg into a table.
 ---@param tbl table The table to store the values in
 ---@param ... any Zero or more values to store in the table
 function Vararg.IntoTable(tbl, ...)
