@@ -96,8 +96,8 @@ function private.CalculateForSimpleDataType(dataType, value, hash)
 				hash = (hash * 33 + 59) % MAX_VALUE
 			end
 			while value > 0 do
-				hash = (hash * 33 + value % 256) % MAX_VALUE
-				value = floor(value / 256)
+				hash = (hash * 33 + value % MAX_VALUE) % MAX_VALUE
+				value = floor(value / MAX_VALUE)
 			end
 		else
 			-- Hash 6 digits of the mantissa plus the exponent
