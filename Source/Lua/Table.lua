@@ -547,7 +547,7 @@ function Table.UnpackAndWipe(tbl)
 	return private.UnpackAndWipeHelper(tbl, unpack(tbl))
 end
 
----Iterates over the table in a similar fasion to ipairs() but in reverse.
+---Iterates over the table in a similar fashion to ipairs() but in reverse.
 ---@generic V
 ---@param tbl V[]
 ---@return fun(): number, V @Iterator with fields: `index`, `value`

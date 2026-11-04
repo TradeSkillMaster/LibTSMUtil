@@ -23,7 +23,7 @@ local MAX_VALUE = 2 ^ 24
 -- This can handle data of type string or number. It can also handle a table being passed as the data assuming all
 -- keys and values of the table are also hashable (strings, numbers, or tables with the same restriction). This
 -- function uses the [djb2 algorithm](http://www.cse.yorku.ca/~oz/hash.html).
----@param data any The data to be hased
+---@param data any The data to be hashed
 ---@param hash? number The initial value of the hash
 ---@return number
 function Hash.Calculate(data, hash)
