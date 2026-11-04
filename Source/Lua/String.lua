@@ -109,13 +109,18 @@ end
 ---@param str string The format string
 ---@return string
 function String.FormatToMatchPattern(str)
-	assert(not strmatch(str, "\001"))
+	assert(not strmatch(str, "[\001\002\003]"))
 	assert(not strmatch(str, "%%s%%s") and not strmatch(str, "%%s%%d") and not strmatch(str, "%%d%%s"))
 	str = gsub(str, "%%%%", "\001")
-	str = gsub(str, "%%s", "(.*)")
-	str = gsub(str, "%%d", "([0-9]*)")
+	str = gsub(str, "%%s", "\002")
+	str = gsub(str, "%%d", "\003")
 	assert(not strmatch(str, "%%"))
-	str = gsub(str, "\001", "%%")
+	for char in pairs(MAGIC_CHARACTERS) do
+		str = gsub(str, "%"..char, "%%"..char)
+	end
+	str = gsub(str, "\001", "%%%%")
+	str = gsub(str, "\002", "(.*)")
+	str = gsub(str, "\003", "([0-9]*)")
 	return str
 end
 
