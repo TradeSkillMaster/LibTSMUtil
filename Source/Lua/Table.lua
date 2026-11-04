@@ -447,7 +447,7 @@ function Table.GetChangedKeys(old, new, result)
 		end
 	end
 	for key in pairs(new) do
-		if not old[key] then
+		if old[key] == nil then
 			result[key] = true
 		end
 	end
