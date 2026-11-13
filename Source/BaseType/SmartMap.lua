@@ -171,7 +171,7 @@ function SmartMap:ValueChanged(key)
 	end
 end
 
----Pausese or unpauses reader callbacks.
+---Pauses or unpauses reader callbacks.
 ---@param paused boolean Whether or not callbacks are paused
 function SmartMap:SetCallbacksPaused(paused)
 	if paused then
