@@ -8,6 +8,7 @@ local LibTSMUtil = select(2, ...).LibTSMUtil
 local SmartMap = LibTSMUtil:DefineClassType("SmartMap")
 local private = {
 	readerContext = {}, ---@type table<SmartMapReader,SmartMapReaderContext>
+	sharedReaderMap = {}, ---@type table<SmartMapReader,SmartMap>
 }
 local VALID_KEY_TYPES = { ---@type table<SmartMapKeyType,true>
 	string = true,
@@ -23,7 +24,7 @@ local VALID_VALUE_TYPES = { ---@type table<SmartMapValueType,true>
 
 ---@class SmartMapReaderContext
 ---@field map SmartMap
----@field callback? fun(reader: SmartMapReader, pendingChanges: table)
+---@field callback fun(reader: SmartMapReader, pendingChanges: table)
 ---@field pendingChanges table<SmartMapKey,SmartMapValue>
 
 ---@alias SmartMapKey
@@ -64,7 +65,7 @@ end
 
 
 -- ============================================================================
--- SmartMapReader Metatable
+-- SmartMapReader Metatables
 -- ============================================================================
 
 ---@class SmartMapReader<K, V>
@@ -99,6 +100,25 @@ READER_MT = {
 	__metatable = false,
 }
 
+local SHARED_READER_MT = nil
+SHARED_READER_MT = {
+	__index = function(self, key)
+		if key == "ToDebugString" then
+			-- Wow calls this - defer to __tostring
+			return SHARED_READER_MT.__tostring
+		end
+		return private.sharedReaderMap[self]:_Get(key)
+	end,
+	__call = READER_MT.__call,
+	__newindex = READER_MT.__newindex,
+	__tostring = function(self)
+		local idStr = strmatch(tostring(private.sharedReaderMap[self]), ":([0-9a-fA-F]+)$")
+		assert(idStr)
+		return "SmartMapReader:"..idStr
+	end,
+	__metatable = false,
+}
+
 
 
 -- ============================================================================
@@ -112,10 +132,10 @@ function SmartMap.__private:__init(keyType, valueType, lookupFunc)
 	self._keyType = keyType
 	self._valueType = valueType
 	self._func = lookupFunc
-	self._data = {}
+	self._data = setmetatable({}, SHARED_READER_MT)
 	self._readers = {} ---@type SmartMapReader[]
 	self._callbacksPaused = 0
-	self._hasReaderCallback = false
+	private.sharedReaderMap[self._data] = self
 end
 
 
@@ -127,18 +147,15 @@ end
 ---Called when the value has changed for a given key to fetch the new one and notify the readers.
 ---@param key K The key which changed
 function SmartMap:ValueChanged(key)
-	local oldValue = self._data[key]
+	local oldValue = rawget(self._data, key)
 	if oldValue == nil then
 		-- nobody cares about this value
 		return
 	end
 
-	if not self._hasReaderCallback then
+	if #self._readers == 0 then
 		-- no reader has registered a callback, so just clear the value
-		self._data[key] = nil
-		for _, reader in ipairs(self._readers) do
-			rawset(reader, key, nil)
-		end
+		rawset(self._data, key, nil)
 		return
 	end
 
@@ -153,19 +170,17 @@ function SmartMap:ValueChanged(key)
 	end
 
 	-- update the data
-	self._data[key] = newValue
+	rawset(self._data, key, newValue)
 
 	for _, reader in ipairs(self._readers) do
-		local readerContext = private.readerContext[reader]
 		local prevValue = rawget(reader, key)
 		if prevValue ~= nil then
 			rawset(reader, key, newValue)
-			if readerContext.callback then
-				readerContext.pendingChanges[key] = prevValue
-				if self._callbacksPaused == 0 then
-					readerContext.callback(reader, readerContext.pendingChanges)
-					wipe(readerContext.pendingChanges)
-				end
+			local readerContext = private.readerContext[reader]
+			readerContext.pendingChanges[key] = prevValue
+			if self._callbacksPaused == 0 then
+				readerContext.callback(reader, readerContext.pendingChanges)
+				wipe(readerContext.pendingChanges)
 			end
 		end
 	end
@@ -182,7 +197,7 @@ function SmartMap:SetCallbacksPaused(paused)
 		if self._callbacksPaused == 0 then
 			for _, reader in ipairs(self._readers) do
 				local readerContext = private.readerContext[reader]
-				if readerContext.callback and next(readerContext.pendingChanges) then
+				if next(readerContext.pendingChanges) then
 					readerContext.callback(reader, readerContext.pendingChanges)
 					wipe(readerContext.pendingChanges)
 				end
@@ -196,9 +211,11 @@ end
 ---@return SmartMapReader<K,V>
 function SmartMap:CreateReader(callback)
 	assert(callback == nil or type(callback) == "function")
+	if not callback then
+		return self._data
+	end
 	local reader = setmetatable({}, READER_MT)
 	tinsert(self._readers, reader)
-	self._hasReaderCallback = self._hasReaderCallback or (callback and true or false)
 	private.readerContext[reader] = {
 		map = self,
 		callback = callback,
@@ -242,7 +259,7 @@ end
 -- ============================================================================
 
 function SmartMap:_Get(key)
-	local value = self._data[key]
+	local value = rawget(self._data, key)
 	if value ~= nil then
 		return value
 	end
@@ -256,6 +273,6 @@ function SmartMap:_Get(key)
 	end
 
 	-- Cache the value on the map
-	self._data[key] = value
+	rawset(self._data, key, value)
 	return value
 end
