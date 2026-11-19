@@ -7,7 +7,6 @@ C_EncodingUtil = {
 	DecodeBase64 = function(str) return str end,
 }
 Env.LoadAddonFiles({
-	"LibTSMClass/LibStub/LibStub.lua",
 	"LibTSMClass/LibTSMClass.lua",
 	"LibTSMCore/LibTSMCore.xml",
 	"LibTSMUtil/LibTSMUtil.xml",
